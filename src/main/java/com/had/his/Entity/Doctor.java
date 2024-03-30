@@ -2,15 +2,23 @@ package com.had.his.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.had.his.Role.UserRole;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
+@Component
 @Table(name = "doctors")
-public class Doctor {
+public class Doctor implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "doctor_seq")
@@ -26,8 +34,6 @@ public class Doctor {
     private String sex;
     @Column(nullable = false)
     private String qualification;
-    @Column(nullable = false)
-    private String specialization;
     @Column(nullable = false)
     private String department;
     @Column(unique = true, nullable = false)
@@ -50,9 +56,17 @@ public class Doctor {
     @Column(name="profile_photo", columnDefinition = "MEDIUMTEXT")
     private String photo;
 
-    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade= CascadeType.ALL)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "doctor"})
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+
+    @OneToMany(mappedBy = "doctor", cascade= CascadeType.ALL)
+    @JsonIgnore
     private List<Visit> visits;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "specialization",nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "doctors"})
+    private Specialization specialization;
 
     public Long getId() {
         return Id;
@@ -104,14 +118,6 @@ public class Doctor {
         this.qualification = qualification;
     }
 
-    public String getSpecialization() {
-        return specialization;
-    }
-
-    public void setSpecialization(String specialization) {
-        this.specialization = specialization;
-    }
-
     public String getDepartment() {
         return department;
     }
@@ -144,6 +150,13 @@ public class Doctor {
         this.licenseNumber = licenseNumber;
     }
 
+    public Specialization getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(Specialization specialization) {
+        this.specialization = specialization;
+    }
 
     public Boolean getAvailability() {
         return availability;
@@ -161,8 +174,38 @@ public class Doctor {
         this.active = active;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(new SimpleGrantedAuthority("DOCTOR"));
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {
@@ -176,6 +219,14 @@ public class Doctor {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     public List<Visit> getVisits() {
@@ -193,7 +244,7 @@ public class Doctor {
 
 
 
-    private void generateEmail() {
+    public void generateEmail() {
         if (this.name != null && !this.name.trim().isEmpty() && this.doctorId != null) {
             this.email = this.name.trim().toLowerCase().replaceAll("\\s+", "") + this.doctorId.replaceAll("\\D+", "") + "@his.com";
         }
@@ -216,7 +267,7 @@ public class Doctor {
     }
 
     public Doctor(Long Id, String doctorId,String name, Integer age, String sex, String qualification,
-                  String specialization, String department, String contact, String licenseNumber ,Boolean availability ,Boolean active ,List<Visit> visits ,String photo, String password) {
+                  Specialization specialization, String department, String contact, String licenseNumber ,Boolean availability ,Boolean active ,UserRole role,List<Visit> visits ,String photo, String password) {
         this.Id = Id;
         this.doctorId=doctorId;
         this.name = name;
@@ -229,6 +280,7 @@ public class Doctor {
         this.licenseNumber = licenseNumber;
         this.availability = availability;
         this.active = active;
+        this.role=role;
         this.visits = visits;
         this.password = password;
         this.photo = photo;
@@ -249,7 +301,6 @@ public class Doctor {
                 ", age=" + age +
                 ", sex='" + sex + '\'' +
                 ", qualification='" + qualification + '\'' +
-                ", specialization='" + specialization + '\'' +
                 ", department='" + department + '\'' +
                 ", email='" + email + '\'' +
                 ", contact='" + contact + '\'' +
@@ -258,7 +309,9 @@ public class Doctor {
                 ", active=" + active +
                 ", password='" + password + '\'' +
                 ", photo='" + photo + '\'' +
+                ", role=" + role +
                 ", visits=" + visits +
+                ", specialization=" + specialization +
                 '}';
     }
 }

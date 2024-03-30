@@ -2,12 +2,13 @@ package com.had.his.Service;
 
 import com.had.his.DTO.LoginDTO;
 import com.had.his.Entity.*;
+import com.had.his.Response.LoginResponse;
 
 import java.util.List;
 
 public interface DoctorService {
 
-    boolean verifyDoctor(LoginDTO credentials);
+    LoginResponse verifyDoctor(LoginDTO credentials);
 
     Doctor changePassword(LoginDTO credentials);
 
@@ -69,10 +70,10 @@ public interface DoctorService {
 
     Long treatedPatientCount(String email);
 
+    List<String> getSpecializations();
+
     List<Doctor> getDoctorsBySpecialization(String specialization);
 
     Doctor exitDoctor(String email);
-
-    Doctor dutyDoctor(String email);
 
 }

@@ -1,11 +1,20 @@
 package com.had.his.Entity;
 
+import com.had.his.Role.UserRole;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
+@Component
 @Table(name = "pharmacy")
-public class Pharmacy {
+public class Pharmacy implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pharmacy_seq")
@@ -19,7 +28,7 @@ public class Pharmacy {
     private String address;
     @Column(name="email",unique = true,nullable = false)
     private String email;
-    @Column(name="contact",nullable = false)
+    @Column(name="contact",nullable = false,unique = true)
     private String contact;
 
     @Column(name="active",nullable = false)
@@ -30,6 +39,9 @@ public class Pharmacy {
 
     @Column(name="password",unique = true)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     public Pharmacy() {
 
@@ -100,8 +112,38 @@ public class Pharmacy {
         this.licenseNumber = licenseNumber;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(new SimpleGrantedAuthority("PHARMACY"));
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {
@@ -109,13 +151,20 @@ public class Pharmacy {
         this.password = passwordEncoder.encode(password);
     }
 
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
 
     public boolean isPasswordMatch(String enteredPassword) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(enteredPassword, this.password);
     }
 
-    private void generateEmail() {
+    public void generateEmail() {
         if (this.name != null && !this.name.trim().isEmpty() && this.pharmacyId != null) {
             this.email = this.name.trim().toLowerCase().replaceAll("\\s+", "") + this.pharmacyId.replaceAll("\\D+", "") + "@his.com";
         }
@@ -128,7 +177,7 @@ public class Pharmacy {
             generateEmail();
         }
     }
-    public Pharmacy(Long Id, String pharmacyId, String name, String address , String contact,Boolean active ,String password, String licenseNumber) {
+    public Pharmacy(Long Id, String pharmacyId, String name, String address , String contact,Boolean active ,String password, String licenseNumber,UserRole role) {
         this.Id = Id;
         this.pharmacyId=pharmacyId;
         this.name = name;
@@ -137,6 +186,7 @@ public class Pharmacy {
         this.contact = contact;
         this.active = active;
         this.licenseNumber=licenseNumber;
+        this.role=role;
         generateEmail();
     }
 

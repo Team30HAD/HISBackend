@@ -2,12 +2,13 @@ package com.had.his.Service;
 
 import com.had.his.DTO.LoginDTO;
 import com.had.his.Entity.*;
+import com.had.his.Response.LoginResponse;
 
 import java.util.List;
 
 public interface AdminService {
     Admin saveAdmin(Admin admin);
-    boolean verifyAdmin(LoginDTO credentials);
+    LoginResponse verifyAdmin(LoginDTO credentials);
     Doctor saveDoctor(Doctor doc);
     Nurse saveNurse(Nurse nurse);
     Receptionist saveReceptionist(Receptionist rec);
@@ -16,20 +17,28 @@ public interface AdminService {
     List<Receptionist> getAllReceptionists();
     List<Doctor> getAllDoctors(String department);
     List<Pharmacy> getAllPharmacies();
-    public void deactivateDoctor(String doctorId);
+    Doctor getDoctor(String doctorId);
+    Nurse getNurse(String nurseId);
+    Receptionist getReceptionist(String recepId);
+    Pharmacy getPharmacy (String pharmaId);
 
-    public void deactivateNurse(String nurseId);
-    public void deactivatePharmacy(String pharmaId);
-    public void deactivateReceptionist(String recepId);
-    public long countPatient();
-    public long countDoctor();
-    public long countNurse();
+    void deactivateDoctor(String doctorId);
 
-    public Doctor editDoctor(String did,Doctor doctor);
-    public Nurse editNurse(String nid,Nurse nurse);
-    public Pharmacy editPharmacy(String phid,Pharmacy pharma);
-    public Receptionist editReceptionist(String rid,Receptionist recep);
+    void deactivateNurse(String nurseId);
+    void deactivatePharmacy(String pharmaId);
+    void deactivateReceptionist(String recepId);
+    long countPatient();
+    long countDoctor();
+    long countNurse();
+    long countReceptionist();
 
+    long countPharmacy();
 
+    Doctor editDoctor(String did,Doctor doctor);
+    Nurse editNurse(String nid,Nurse nurse);
+    Pharmacy editPharmacy(String phid,Pharmacy pharma);
+    Receptionist editReceptionist(String rid,Receptionist recep);
+    Hospital getHospital();
 
+    Specialization addSpecialization(Specialization specialization);
 }

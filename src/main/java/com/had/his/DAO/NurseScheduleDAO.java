@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface NurseScheduleDAO extends JpaRepository<NurseSchedule,Integer> {
-    @Query("select ns from NurseSchedule ns where ns.nurse.nurseId=?1")
-    List<NurseSchedule> getNurseScheduleByNurse(String nid);
+    @Query("select n from NurseSchedule n where n.nurse.nurseId=?1")
+    List<NurseSchedule> getNurseScheduleById(String nurseId);
 }

@@ -52,6 +52,10 @@ public class Patient {
     private Vitals vitals;
 
     @JsonIgnore
+    @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL)
+    private Consent consent;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
     private List<SymptomImages> symptomImages;
 
@@ -63,11 +67,11 @@ public class Patient {
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<Progress> progress;
 
-    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade= CascadeType.ALL)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "patient"})
+    @OneToMany(mappedBy = "patient", cascade= CascadeType.ALL)
+    @JsonIgnore
     private List<Visit> visit;
 
-    public Patient(Long Id, String patientId, String patientName, Integer age, String sex, String contact, String email, String department, Boolean emergency, String specialization, String disease, Doctor doctor, List<Medication> medications, List<PastHistory> pastHistories, Symptoms symptoms, Vitals vitals, List<SymptomImages> symptomImages, Bed bed, List<Progress> progress, List<Visit> visit) {
+    public Patient(Long Id, String patientId, String patientName, Integer age, String sex, String contact, String email, String department, Boolean emergency, String specialization, String disease, Doctor doctor, List<Medication> medications, List<PastHistory> pastHistories, Symptoms symptoms, Vitals vitals,Consent consent, List<SymptomImages> symptomImages, Bed bed, List<Progress> progress, List<Visit> visit) {
         this.Id = Id;
         this.patientId = patientId;
         this.patientName = patientName;
@@ -79,6 +83,7 @@ public class Patient {
         this.pastHistories = pastHistories;
         this.symptoms = symptoms;
         this.vitals = vitals;
+        this.consent = consent;
         this.symptomImages = symptomImages;
         this.bed = bed;
         this.progress = progress;
@@ -178,6 +183,14 @@ public class Patient {
         this.vitals = vitals;
     }
 
+    public Consent getConsent() {
+        return consent;
+    }
+
+    public void setConsent(Consent consent) {
+        this.consent = consent;
+    }
+
     public List<SymptomImages> getSymptomImages() {
         return symptomImages;
     }
@@ -241,6 +254,7 @@ public class Patient {
                 ", pastHistories=" + pastHistories +
                 ", symptoms=" + symptoms +
                 ", vitals=" + vitals +
+                ", consent=" + consent +
                 ", symptomImages=" + symptomImages +
                 ", bed=" + bed +
                 ", progress=" + progress +

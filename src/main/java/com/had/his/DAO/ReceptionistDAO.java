@@ -8,6 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ReceptionistDAO extends JpaRepository<Receptionist,String> {
+    @Query("select r from Receptionist r where r.email=?1")
+    Receptionist findByEmail(String email);
+
+    Receptionist findByReceptionistId(String recepId);
     @Query("select recep from Receptionist recep where recep.receptionistId=?1")
     Receptionist findReceptionistByReceptionistId(String rid);
     @Query("select r from Receptionist r where r.active=true")

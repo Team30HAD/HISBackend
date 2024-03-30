@@ -35,9 +35,9 @@ public class Visit {
     @Column(name="disease")
     private String disease;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "did", nullable = false,referencedColumnName = "doctor_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "visits"})
+    @JsonIgnore
     private Doctor doctor;
 
     @JsonIgnore
@@ -48,9 +48,9 @@ public class Visit {
     @OneToMany(mappedBy = "visit",cascade = CascadeType.ALL)
     private List<Test> tests;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "pid", nullable = false,referencedColumnName = "patient_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "visits"})
+    @JsonIgnore
     private Patient patient;
 
     public Visit() {

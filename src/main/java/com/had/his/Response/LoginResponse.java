@@ -5,12 +5,12 @@ public class LoginResponse {
 
     String message;
     Boolean status;
-    String nurseId;
+    String token;
 
-    public LoginResponse(String message, Boolean status, String nurseId) {
+    public LoginResponse(String message, Boolean status, String token) {
         this.message = message;
         this.status = status;
-        this.nurseId = nurseId;
+        this.token = token;
     }
 
     public String getMessage() {
@@ -29,20 +29,22 @@ public class LoginResponse {
         this.status = status;
     }
 
-    public String getNurseId() {
-        return nurseId;
+    public String getToken() {
+        return token;
     }
 
-    public void setNurseId(String nurseId) {
-        this.nurseId = nurseId;
+    public void setToken(String token) {
+        this.token = token;
     }
+
+
 
     @Override
     public String toString() {
         return "LoginResponse{" +
                 "message='" + message + '\'' +
                 ", status=" + status +
-                ", nurseId='" + nurseId + '\'' +
+                ", token='" + token + '\'' +
                 '}';
     }
 }

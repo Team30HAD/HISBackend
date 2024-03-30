@@ -7,6 +7,8 @@ import com.had.his.DTO.LoginDTO;
 import com.had.his.Entity.Medication;
 import com.had.his.Entity.Pharmacy;
 import com.had.his.Entity.Visit;
+import com.had.his.Response.LoginResponse;
+import com.had.his.Security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,16 +27,27 @@ public class PharmacyServiceImpl implements PharmacyService {
     @Autowired
     private VisitDAO visitDao;
 
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
-    public boolean verifyPharmacy(LoginDTO credentials) {
+
+    public LoginResponse verifyPharmacy(LoginDTO credentials) {
         String email = credentials.getEmail();
         String enteredPassword = credentials.getPassword();
 
         Pharmacy pharmacy = pharmacyDao.findByEmail(email);
         if (pharmacy != null && pharmacy.getActive()) {
-            return pharmacy.isPasswordMatch(enteredPassword);
+            if( pharmacy.isPasswordMatch(enteredPassword))
+            {
+                String jwttoken= jwtTokenProvider.generateToken(pharmacy);
+                return new LoginResponse("Login Successful",true,jwttoken);
+            } else {
+                return new LoginResponse("Password not matched", false, null);
+            }
         }
-        return false;
+        else{
+            return new LoginResponse("Invalid User.", false, null);
+        }
     }
 
     public Pharmacy changePassword(LoginDTO credentials){

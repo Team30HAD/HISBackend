@@ -10,7 +10,9 @@ public interface NurseService {
 
     LoginResponse NurseLogin(LoginDTO loginDTO);
 
-    Nurse getNurseDetailsById(String nurseId);
+    Nurse getNurseDetailsByEmail(String email);
+
+    List<NurseSchedule> viewNurseScheduleById(String nurseId);
     List<Patient> getEmergencyPatients();
 
     List<Patient> getAllPatients();
@@ -23,6 +25,8 @@ public interface NurseService {
 
     Vitals viewVitals(String patientId);
 
+    Vitals viewVitalsById(String patientId,Long vitalid);
+
     void deleteVitals(Long vitalid);
 
     Symptoms addSymptoms(String patientId, Symptoms symptoms);
@@ -31,6 +35,8 @@ public interface NurseService {
 
     Symptoms viewSymptoms(String patientId);
 
+    Symptoms viewSymptomsById(String patientId,Long symptomid);
+
     void deleteSymptoms(Long symptomid);
 
     PastHistory addPastHistory(String patientId, PastHistory pastHistory);
@@ -38,6 +44,7 @@ public interface NurseService {
     PastHistory editPastHistory(Long historyid,PastHistory pastHistory);
 
     List<PastHistory> viewPastHistory(String patientId);
+    PastHistory viewPastHistoryById(String patientId,Long historyId);
 
     void deletePastHistory(Long historyid);
 
@@ -47,6 +54,8 @@ public interface NurseService {
 
     List<SymptomImages> viewSymptomImages(String patientId);
 
+    SymptomImages viewSymptomImagesById(String patientId,Integer id);
+
 
     void deleteSymptomImages(Integer id);
 
@@ -55,6 +64,8 @@ public interface NurseService {
     PastImages editPastImages(Integer imgId,PastImages pastImages);
 
     List<PastImages> viewPastImages(Integer historyId);
+
+    PastImages viewPastImagesById(Integer historyId,Integer imgId);
 
     void deletePastImages(Integer imgId);
 
@@ -74,7 +85,12 @@ public interface NurseService {
 
     List<TestImages> viewTestImages(Integer id);
 
+    TestImages viewTestImagesById(Integer id,Long testimageid);
+
+
     void deleteTestImages(Long testimageId);
+
+    Test viewTestById(String patientId,Integer id);
 
 
 }

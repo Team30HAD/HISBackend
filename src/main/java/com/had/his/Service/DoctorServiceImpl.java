@@ -3,6 +3,8 @@ package com.had.his.Service;
 import com.had.his.DAO.*;
 import com.had.his.DTO.LoginDTO;
 import com.had.his.Entity.*;
+import com.had.his.Response.LoginResponse;
+import com.had.his.Security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,16 +57,31 @@ public class DoctorServiceImpl implements DoctorService{
     @Autowired
     private VisitDAO visitDAO;
 
-    @Override
-    public boolean verifyDoctor(LoginDTO credentials) {
+    @Autowired
+    private SpecializationDAO specializationDAO;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+   @Override
+    public LoginResponse verifyDoctor(LoginDTO credentials) {
         String email = credentials.getEmail();
         String enteredPassword = credentials.getPassword();
 
         Doctor doc = doctorDAO.findByEmail(email);
         if (doc != null && doc.getActive()) {
-            return doc.isPasswordMatch(enteredPassword);
+            if( doc.isPasswordMatch(enteredPassword))
+            {
+                doc.setAvailability(true);
+                doctorDAO.save(doc);
+                String jwttoken= jwtTokenProvider.generateToken(doc);
+                return new LoginResponse("Login Successful",true,jwttoken);
+            } else {
+                return new LoginResponse("Password not matched", false, null);
+            }
         }
-        return false;
+        else{
+                return new LoginResponse("Invalid User.", false, null);
+            }
     }
 
     @Transactional
@@ -93,9 +110,10 @@ public class DoctorServiceImpl implements DoctorService{
         return patientDAO.getEmergencyPatients(email);
     }
 
-    public Patient getPatientDetails(String pid){
-        return  patientDAO.findPatientDetailsById(pid);
+    public Patient getPatientDetails(String pid) {
+        return patientDAO.findPatientDetailsById(pid);
     }
+
 
     public Vitals getVitals(String pid){
         return vitalsDAO.getVitalsByPatient(pid);
@@ -150,6 +168,7 @@ public class DoctorServiceImpl implements DoctorService{
     public Medication saveMedication(String pid,Medication med){
         med.setPastMedication(false);
         med.setPrescribedOn(LocalDate.now());
+        med.setServed(false);
         med.setVisit(visitDAO.getRecentVisit(pid));
         return medicationDAO.save(med);
     }
@@ -165,6 +184,7 @@ public class DoctorServiceImpl implements DoctorService{
     }
 
     public void deleteMedication(String pid,Integer mid){
+        System.out.println(mid);
         Medication medication=medicationDAO.findMedicationByMedicineId(pid,mid);
         medicationDAO.delete(medication);
     }
@@ -210,7 +230,9 @@ public class DoctorServiceImpl implements DoctorService{
         Patient newPatient = patientDAO.findPatientDetailsById(pid);
         newPatient.setDepartment("IP");
         Visit newVisit=visitDAO.getRecentVisit(pid);
-        newVisit.setDoctor(doctorDAO.findByDoctorId(did));
+        Doctor doctor = doctorDAO.findByDoctorId(did);
+        newVisit.setDoctor(doctor);
+        newVisit.setSpecialization(doctor.getSpecialization().getSpecializationName());
         visitDAO.save(newVisit);
         Bed newBed= bedDAO.getFirstFreeBed();
         newBed.setPatient(newPatient);
@@ -250,6 +272,11 @@ public class DoctorServiceImpl implements DoctorService{
         return patientDAO.getTreatedCount(email);
     }
 
+    @Override
+    public List<String> getSpecializations() {
+        return specializationDAO.findALLSpecializations();
+    }
+
     public List<Doctor> getDoctorsBySpecialization(String specialization){
         return doctorDAO.getIPDoctorsBySpecialization(specialization);
     }
@@ -257,12 +284,6 @@ public class DoctorServiceImpl implements DoctorService{
     public Doctor exitDoctor(String email){
         Doctor newDoc = doctorDAO.findByEmail(email);
         newDoc.setAvailability(false);
-        return doctorDAO.save(newDoc);
-    }
-
-    public Doctor dutyDoctor(String email){
-        Doctor newDoc = doctorDAO.findByEmail(email);
-        newDoc.setAvailability(true);
         return doctorDAO.save(newDoc);
     }
 

@@ -1,11 +1,14 @@
 package com.had.his.Controller;
 
+import com.had.his.DTO.AppointmentDTO;
 import com.had.his.DTO.LoginDTO;
 import com.had.his.Entity.*;
+import com.had.his.Response.LoginResponse;
 import com.had.his.Service.ReceptionistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -20,12 +23,26 @@ public class ReceptionistController {
     @Autowired
     private ReceptionistService receptionistService;
 
-    @PostMapping("/bookAppointmentForExistingPatient/{pid}/{did}")
-    public ResponseEntity<Visit> bookAppointmentForExistingPatient(@PathVariable("pid") String pid,@PathVariable("did") String did,
-                                                                   @RequestBody Visit visit)
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> verifyReceptionist(@RequestBody LoginDTO loginDto)
     {
         try {
-            receptionistService.bookAppointmentForExistingPatient(pid,did,visit);
+            LoginResponse loginResponse = receptionistService.verifyReceptionist(loginDto);
+            return ResponseEntity.ok(loginResponse);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
+    }
+
+
+    @PostMapping("/bookAppointmentForExistingPatient/{email}/{pid}")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
+    public ResponseEntity<Visit> bookAppointmentForExistingPatient(@PathVariable("email") String email, @PathVariable("pid") String pid, @RequestBody AppointmentDTO appointment)
+    {
+        try {
+            Visit visit = receptionistService.bookAppointmentForExistingPatient(email,pid,appointment);
             return ResponseEntity.ok(visit);
         } catch (Exception e) {
             e.printStackTrace();
@@ -33,11 +50,12 @@ public class ReceptionistController {
         }
     }
 
-    @PostMapping("/bookAppointmentForNewPatient/{did}")
-    public ResponseEntity<Visit> bookAppointmentForNewPatient(@PathVariable("did") String did, @RequestBody Visit visit)
+    @PostMapping("/bookAppointmentForNewPatient/{email}")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
+    public ResponseEntity<Visit> bookAppointmentForNewPatient(@PathVariable("email") String email, @RequestBody AppointmentDTO appointment)
     {
         try {
-            receptionistService.bookAppointmentForNewPatient(did,visit);
+            Visit visit = receptionistService.bookAppointmentForNewPatient(email,appointment);
             return ResponseEntity.ok(visit);
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,19 +63,9 @@ public class ReceptionistController {
         }
     }
 
-    @PostMapping("/bookEmergencyAppointment/{did}")
-    public ResponseEntity<Visit> bookEmergencyAppointment(@PathVariable("did") String did, @RequestBody Visit visit)
-    {
-        try {
-            receptionistService.bookEmergencyAppointment(did,visit);
-            return ResponseEntity.ok(visit);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
 
     @GetMapping("/getPatientDetails/{pid}")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     private ResponseEntity<Patient> getPatientDetails(@PathVariable("pid") String pid) {
         try {
             Patient patient = receptionistService.getPatientDetails(pid);
@@ -73,21 +81,8 @@ public class ReceptionistController {
     }
 
 
-    @PostMapping("/addPatient")
-    private ResponseEntity<Patient> addPatient(@RequestBody Patient patient) {
-        try {
-            Patient newPatient = receptionistService.addPatient(patient);
-            return ResponseEntity.ok(newPatient);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
-
-
-
-
     @PutMapping("/updatePatient/{pid}")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     private ResponseEntity<Patient> updatePatient(@PathVariable("pid") String pid, @RequestBody Patient updatedPatient) {
         try {
             Patient newPatient = receptionistService.updatePatient(pid, updatedPatient);
@@ -98,8 +93,8 @@ public class ReceptionistController {
         }
     }
 
-
     @PutMapping("/deletePatientPII/{pid}")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     public ResponseEntity<Patient> deletePatientPII(@PathVariable("pid") String patientId) {
         try {
             Patient updatedPatient = receptionistService.deletePatientPII(patientId);
@@ -109,7 +104,8 @@ public class ReceptionistController {
         }
     }
 
-    @PutMapping("/deletePatientRecords/{pid}")
+    @DeleteMapping("/deletePatientRecords/{pid}")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     public ResponseEntity<String> deletePatientRecords(@PathVariable("pid") String patientId) {
         try {
             receptionistService.deletePatientRecords(patientId);
@@ -120,6 +116,7 @@ public class ReceptionistController {
     }
 
     @GetMapping("/getAllPatients")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     private ResponseEntity<Map<String, Object>> getAllPatients() {
         try {
             List<Patient> patients = receptionistService.getAllPatients();
@@ -141,6 +138,7 @@ public class ReceptionistController {
 
 
     @GetMapping("/getIndoorPatients")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     private ResponseEntity<Map<String, Object>> getIndoorPatients() {
         try {
             List<Patient> patients = receptionistService.getIndoorPatients();
@@ -162,6 +160,7 @@ public class ReceptionistController {
 
 
     @GetMapping("/getOutdoorPatients")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     private ResponseEntity<Map<String, Object>> getOutdoorPatients() {
         try {
             List<Patient> patients = receptionistService.getOutdoorPatients();
@@ -182,6 +181,7 @@ public class ReceptionistController {
     }
 
     @GetMapping("/getAllDoctors")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     private ResponseEntity<Map<String, Object>> getAllDoctors() {
         try {
             List<Doctor> doctors = receptionistService.getAllDoctors();
@@ -202,6 +202,7 @@ public class ReceptionistController {
     }
 
     @GetMapping("/getIndoorDoctors")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     private ResponseEntity<Map<String, Object>> getIndoorDoctors() {
         try {
             List<Doctor> doctors = receptionistService.getIndoorDoctors();
@@ -222,6 +223,7 @@ public class ReceptionistController {
     }
 
     @GetMapping("/getOutdoorDoctors")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     private ResponseEntity<Map<String, Object>> getOutdoorDoctors() {
         try {
             List<Doctor> doctors = receptionistService.getOutdoorDoctors();
@@ -242,10 +244,11 @@ public class ReceptionistController {
     }
 
 
-    @GetMapping("/getDoctorsBySpecialization/{specialization}")
+    @GetMapping("/getOutdoorDoctorsBySpecialization/{specialization}")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     private ResponseEntity<Map<String, Object>> getDoctorsBySpecialization(@PathVariable String specialization) {
         try {
-            List<Doctor> doctors = receptionistService.getDoctorsBySpecialization(specialization);
+            List<Doctor> doctors = receptionistService.getOutdoorDoctorsBySpecialization(specialization);
 
             if (doctors != null) {
                 int doctorCount = doctors.size();
@@ -261,6 +264,23 @@ public class ReceptionistController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+    @GetMapping("/getAllSpecializations")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
+    private ResponseEntity<?> getAllSpecializations() {
+        try {
+            List<String> specializations = receptionistService.getSpecialization();
+            if (specializations.isEmpty())
+                return ResponseEntity.ok("No specializations exist! Please add a doctor first");
+            return ResponseEntity.ok(specializations);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred while fetching specializations: " + e.getMessage());
+        }
+    }
+
+
 
 
 }

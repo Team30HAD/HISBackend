@@ -4,6 +4,8 @@ import com.had.his.DAO.*;
 import com.had.his.DTO.LoginDTO;
 import com.had.his.Entity.*;
 import com.had.his.Response.LoginResponse;
+import com.had.his.Security.JwtTokenProvider;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,9 @@ public class NurseServiceImpl implements NurseService {
 
     @Autowired
     private SymptomsDAO symptomsDAO;
+    @Autowired
+    private HttpSession httpSession;
+
 
     @Autowired
     private PastHistoryDAO pastHistoryDAO;
@@ -42,6 +47,12 @@ public class NurseServiceImpl implements NurseService {
 
     @Autowired
     private TestImagesDAO testImagesDAO;
+
+    @Autowired
+    private NurseScheduleDAO nurseScheduleDAO;
+    @Autowired
+    private JwtTokenProvider JwtTokenProvider;
+
 
 
     public LoginResponse NurseLogin(LoginDTO loginDto)
@@ -64,8 +75,10 @@ public class NurseServiceImpl implements NurseService {
                         boolean passmatch = nurse.isPasswordMatch(password);
 
                         if (passmatch) {
-                            String nurseId = nurse.getNurseId();
-                            return new LoginResponse("Login Successful",true,nurseId);
+                            System.out.println("password matched");
+
+                           String jwttoken= JwtTokenProvider.generateToken(nurse);
+                            return new LoginResponse("Login Successful",true,jwttoken);
                         } else {
                             return new LoginResponse("Password not matched", false, null);
                         }
@@ -83,8 +96,16 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Transactional
-    public Nurse getNurseDetailsById(String nurseId) {
-        return nurseDAO.findDetailsById(nurseId);
+    public List<NurseSchedule> viewNurseScheduleById(String nurseId)
+    {
+
+        List<NurseSchedule> nurseSchedules=nurseScheduleDAO.getNurseScheduleById(nurseId);
+        return  nurseSchedules;
+    }
+
+    @Transactional
+    public Nurse getNurseDetailsByEmail(String email) {
+        return nurseDAO.findDetailsByEmail(email);
     }
 
     @Transactional
@@ -133,6 +154,13 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Transactional
+    public Vitals viewVitalsById(String patientId,Long vitalid)
+    {
+        return vitalsDAO.getVitalsById(patientId,vitalid);
+    }
+
+
+    @Transactional
     public Vitals viewVitals(String patientId)
     {
         return vitalsDAO.getVitalsByPatient(patientId);
@@ -158,19 +186,26 @@ public class NurseServiceImpl implements NurseService {
     public Symptoms editSymptoms(Long symptomid,Symptoms symptoms)
     {
         Symptoms savesymptoms=symptomsDAO.findBySymptomsId(symptomid);
-        if(symptoms.getSymptom1()!=null  && !symptoms.getSymptom1().isEmpty())
+        if(symptoms.getSymptom1()!=null )
             savesymptoms.setSymptom1(symptoms.getSymptom1());
-        if(symptoms.getSymptom2()!=null && !symptoms.getSymptom2().isEmpty())
+        if(symptoms.getSymptom2()!=null )
             savesymptoms.setSymptom2(symptoms.getSymptom2());
-        if(symptoms.getSymptom3()!=null && !symptoms.getSymptom3().isEmpty())
+        if(symptoms.getSymptom3()!=null )
             savesymptoms.setSymptom3(symptoms.getSymptom3());
-        if(symptoms.getSymptom4()!=null && !symptoms.getSymptom4().isEmpty())
+        if(symptoms.getSymptom4()!=null)
             savesymptoms.setSymptom4(symptoms.getSymptom4());
-        if(symptoms.getSymptom5()!=null && !symptoms.getSymptom5().isEmpty())
+        if(symptoms.getSymptom5()!=null )
             savesymptoms.setSymptom5(symptoms.getSymptom5());
         if(symptoms.getPatient()!=null)
             savesymptoms.setPatient(symptoms.getPatient());
         return symptomsDAO.save(savesymptoms);
+    }
+
+    @Transactional
+    public Symptoms viewSymptomsById(String patientId,Long symptomid){
+        Symptoms symptoms=symptomsDAO.getSymptomsById(patientId,symptomid);
+        return symptoms;
+
     }
 
     @Transactional
@@ -201,13 +236,13 @@ public class NurseServiceImpl implements NurseService {
     public PastHistory editPastHistory(Long historyid,PastHistory pastHistory){
         Optional<PastHistory> optionalPastHistory=pastHistoryDAO.findById(historyid);
         PastHistory savepastHistory=optionalPastHistory.orElse(null);
-        if(pastHistory.getDisease()!=null)
+        if(pastHistory.getDisease()!=null && !pastHistory.getDisease().isEmpty())
             savepastHistory.setDisease(pastHistory.getDisease());
-        if(pastHistory.getMedicine()!=null)
+        if(pastHistory.getMedicine()!=null && !pastHistory.getMedicine().isEmpty())
             savepastHistory.setMedicine(pastHistory.getMedicine());
-        if(pastHistory.getDosage()!=null)
+        if(pastHistory.getDosage()!=null && !pastHistory.getDosage().isEmpty())
             savepastHistory.setDosage(pastHistory.getDosage());
-        if(pastHistory.getRemarks()!=null)
+        if(pastHistory.getRemarks()!=null && !pastHistory.getRemarks().isEmpty())
             savepastHistory.setRemarks(pastHistory.getRemarks());
         if(pastHistory.getRecordedAt()!=null)
             savepastHistory.setRecordedAt(pastHistory.getRecordedAt());
@@ -216,6 +251,13 @@ public class NurseServiceImpl implements NurseService {
         if(pastHistory.getPatient()!=null)
             savepastHistory.setPatient(pastHistory.getPatient());
         return pastHistoryDAO.save(savepastHistory);
+    }
+
+    @Transactional
+    public PastHistory viewPastHistoryById(String patientId,Long historyId)
+    {
+        PastHistory pastHistory=  pastHistoryDAO.getPastHistoriesById(patientId,historyId);
+        return pastHistory;
     }
 
     @Transactional
@@ -245,20 +287,26 @@ public class NurseServiceImpl implements NurseService {
     {
         Optional<SymptomImages> optionalSymptomImages=symptomImagesDAO.findById(id);
         SymptomImages savesymptomImages=optionalSymptomImages.orElse(null);
-        if(symptomImages.getImage()!=null)
+        if(symptomImages.getImage()!=null && !symptomImages.getImage().isEmpty())
             savesymptomImages.setImage(symptomImages.getImage());
-        if(symptomImages.getDescription()!=null)
+        if(symptomImages.getDescription()!=null && !symptomImages.getDescription().isEmpty())
             savesymptomImages.setDescription(symptomImages.getDescription());
         if(symptomImages.getPatient()!=null)
             savesymptomImages.setPatient(symptomImages.getPatient());
         return symptomImagesDAO.save(savesymptomImages);
     }
-
     @Transactional
     public List<SymptomImages> viewSymptomImages(String patientId){
         List<SymptomImages> symptomImages=symptomImagesDAO.getSymptomImagesByPatient(patientId);
         return symptomImages;
     }
+
+    @Transactional
+    public SymptomImages viewSymptomImagesById(String patientId,Integer id){
+        SymptomImages symptomImages=symptomImagesDAO.getSymptomImagesById(patientId,id);
+        return symptomImages;
+    }
+
 
     @Transactional
     public void deleteSymptomImages(Integer id)
@@ -282,7 +330,7 @@ public class NurseServiceImpl implements NurseService {
     {
         Optional<PastImages> optionalPastImages=pastImagesDAO.findById(imgId);
         PastImages savepastImages=optionalPastImages.orElse(null);
-        if(pastImages.getPastImg()!=null)
+        if(pastImages.getPastImg()!=null && !pastImages.getPastImg().isEmpty())
             savepastImages.setPastImg(pastImages.getPastImg());
         if(pastImages.getPastHistory()!=null)
             savepastImages.setPastHistory(pastImages.getPastHistory());
@@ -293,6 +341,13 @@ public class NurseServiceImpl implements NurseService {
     public List<PastImages> viewPastImages(Integer historyId)
     {
         return pastImagesDAO.getPastImagesByPastHistory(historyId);
+
+    }
+
+    @Transactional
+    public PastImages viewPastImagesById(Integer historyId,Integer imgId)
+    {
+        return pastImagesDAO.getPastImagesById(historyId,imgId);
 
     }
 
@@ -318,6 +373,15 @@ public class NurseServiceImpl implements NurseService {
         return tests;
 
     }
+
+    @Transactional
+    public Test viewTestById(String patientId,Integer id)
+    {
+        Test test=testDAO.findTestByTestId(patientId,id);
+        return test;
+
+    }
+
 
     @Override
     public Test addTestResult(Integer id,Test test)
@@ -357,11 +421,18 @@ public class NurseServiceImpl implements NurseService {
     public TestImages editTestImages(Long testimageId,TestImages testImages){
         Optional<TestImages> optionalTest=testImagesDAO.findById(testimageId);
         TestImages savetestimages=optionalTest.orElse(null);
-        if(testImages.getImage()!=null)
+        if(testImages.getImage()!=null && !testImages.getImage().isEmpty())
             savetestimages.setImage(testImages.getImage());
         return testImagesDAO.save(savetestimages);
 
     }
+
+    @Transactional
+    public TestImages viewTestImagesById(Integer id,Long testimageId)
+    {
+        return testImagesDAO.findTestImageById(id,testimageId);
+    }
+
 
     @Transactional
     public List<TestImages> viewTestImages(Integer id)

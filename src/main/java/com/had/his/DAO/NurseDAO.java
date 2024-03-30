@@ -13,6 +13,11 @@ public interface NurseDAO extends JpaRepository<Nurse,Long> {
 
     Nurse findByEmail(String email);
 
+    @Query("select n from Nurse n where n.email=?1")
+    Nurse findDetailsByEmail(String email);
+
+    Nurse findByNurseId(String nurseId);
+
     @Query("select n from Nurse n where n.nurseId=?1")
     Nurse findDetailsById(String nurseId);
 

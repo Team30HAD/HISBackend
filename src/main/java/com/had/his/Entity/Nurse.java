@@ -2,14 +2,22 @@ package com.had.his.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.had.his.Role.UserRole;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
+@Component
 @Table(name = "nurses")
-public class Nurse {
+public class Nurse implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "nurse_seq")
@@ -44,6 +52,10 @@ public class Nurse {
     @Column(name="profilephoto", columnDefinition = "MEDIUMTEXT")
     private String photo;
 
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+
     @OneToMany(mappedBy = "nurse",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler","nurse"})
     private List<NurseSchedule> nurseSchedules;
@@ -51,7 +63,7 @@ public class Nurse {
     public Nurse() {
     }
 
-    public Nurse(Long Id,String nurseId, String name, int age, String sex, String contact,Boolean active , String photo, String password , List<NurseSchedule> nurseSchedules) {
+    public Nurse(Long Id,String nurseId, String name, int age, String sex, String contact,Boolean active , String photo, String password , UserRole role,List<NurseSchedule> nurseSchedules) {
         this.Id = Id;
         this.nurseId = nurseId;
         this.name = name;
@@ -61,6 +73,7 @@ public class Nurse {
         this.active = active;
         this.password = password;
         this.photo = photo;
+        this.role=role;
         this.nurseSchedules = nurseSchedules;
         generateEmail();
     }
@@ -133,8 +146,38 @@ public class Nurse {
         this.active = active;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(new SimpleGrantedAuthority("NURSE"));
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {
@@ -148,6 +191,14 @@ public class Nurse {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     public List<NurseSchedule> getNurseSchedules() {
@@ -165,7 +216,7 @@ public class Nurse {
     }
 
 
-    private void generateEmail() {
+    public void generateEmail() {
         if (this.name != null && !this.name.trim().isEmpty() && this.nurseId != null) {
             this.email = this.name.trim().toLowerCase().replaceAll("\\s+", "") + this.nurseId.replaceAll("\\D+", "") + "@his.com";
 
@@ -193,6 +244,7 @@ public class Nurse {
                 ", active=" + active +
                 ", password='" + password + '\'' +
                 ", photo='" + photo + '\'' +
+                ", role='" + role + '\'' +
                 ", nurseSchedules=" + nurseSchedules +
                 '}';
     }

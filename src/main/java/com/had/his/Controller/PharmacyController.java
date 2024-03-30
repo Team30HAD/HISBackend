@@ -4,9 +4,11 @@ package com.had.his.Controller;
 import com.had.his.DTO.LoginDTO;
 import com.had.his.Entity.Medication;
 import com.had.his.Entity.Pharmacy;
+import com.had.his.Response.LoginResponse;
 import com.had.his.Service.PharmacyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,15 +27,19 @@ public class PharmacyController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<String> pharmacyLogin(@RequestBody LoginDTO credentials) {
-        if (pharmacyService.verifyPharmacy(credentials)) {
-            return ResponseEntity.ok("Login successful");
-        } else {
-            return ResponseEntity.status(401).body("Login failed");
+    public ResponseEntity<LoginResponse> pharmacyLogin(@RequestBody LoginDTO credentials) {
+        try {
+            LoginResponse loginResponse = pharmacyService.verifyPharmacy(credentials);
+            return ResponseEntity.ok(loginResponse);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
         }
     }
 
     @PostMapping("/passwordChange")
+    @PreAuthorize("hasRole('PHARMACY')")
     public ResponseEntity<Pharmacy> changeDoctorPassword(@RequestBody LoginDTO credentials) {
         try {
             Pharmacy newPharmacy = pharmacyService.changePassword(credentials);
@@ -45,6 +51,7 @@ public class PharmacyController {
     }
 
     @GetMapping("/home/{email}")
+    @PreAuthorize("hasRole('PHARMACY')")
     private ResponseEntity<Pharmacy> findByEmail(@PathVariable("email") String email) {
         try {
             Pharmacy newPharmacy = pharmacyService.findByEmail(email);
@@ -56,6 +63,7 @@ public class PharmacyController {
     }
 
     @GetMapping("/viewPharmacy/{pharmacyId}")
+    @PreAuthorize("hasRole('PHARMACY')")
     public ResponseEntity<Pharmacy> viewPharmacy(@PathVariable String pharmacyId)
     {
         Pharmacy pharmacy= pharmacyService.viewPharmacy(pharmacyId);
@@ -64,6 +72,7 @@ public class PharmacyController {
     }
 
     @GetMapping("/viewMedication/{patientId}")
+    @PreAuthorize("hasRole('PHARMACY')")
     public ResponseEntity<List<Medication>> viewMedication(@PathVariable String patientId)
     {
         List<Medication> medications= pharmacyService.viewMedication(patientId);
@@ -76,6 +85,7 @@ public class PharmacyController {
     }
 
     @PutMapping("/serve/{medicineId}")
+    @PreAuthorize("hasRole('PHARMACY')")
     public ResponseEntity<String> serveMedication(@PathVariable Long medicineId) {
 
         try {
