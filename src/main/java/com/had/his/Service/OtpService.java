@@ -9,11 +9,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class OtpService {
-
-    // Twilio credentials
-    private static final String ACCOUNT_SID = "";
-    private static final String AUTH_TOKEN = "";
-    private static final String TWILIO_PHONE_NUMBER = "";
+    
 
     // Map to store generated OTPs with patient mobile numbers
     private static final Map<String, String> otpMap = new HashMap<>();
