@@ -68,7 +68,9 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-    public Doctor saveDoctor(Doctor doc) {
+    public Doctor saveDoctor(Doctor doc,String specialization) {
+        Specialization spec = specializationDAO.getSpecializationByName(specialization);
+        doc.setSpecialization(spec);
         doc.setActive(true);
         doc.setAvailability(true);
         doc.setRole(UserRole.DOCTOR);

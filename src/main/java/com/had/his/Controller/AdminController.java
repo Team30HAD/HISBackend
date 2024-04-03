@@ -41,11 +41,11 @@ public class AdminController {
         }
     }
 
-    @PostMapping("/addDoctor")
+    @PostMapping("/addDoctor/{specialization}")
     @PreAuthorize("hasRole('ADMIN')")
-    private ResponseEntity<Doctor> saveDoctor(@RequestBody Doctor doc) {
+    private ResponseEntity<Doctor> saveDoctor(@RequestBody Doctor doc, @PathVariable String specialization) {
         try {
-            Doctor newDoctor = adminService.saveDoctor(doc);
+            Doctor newDoctor = adminService.saveDoctor(doc,specialization);
             return ResponseEntity.ok(newDoctor);
         } catch (Exception e) {
             e.printStackTrace();

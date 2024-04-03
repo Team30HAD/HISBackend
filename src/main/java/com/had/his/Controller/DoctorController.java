@@ -343,6 +343,19 @@ public class DoctorController {
         }
     }
 
+    @GetMapping("/getDisease/{pid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    private ResponseEntity<String> getDisease(@PathVariable("pid") String pid){
+        try {
+            String disease = doctorService.getDisease(pid);
+            return ResponseEntity.ok(disease);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+
     @PutMapping("/changetoIP/{pid}/{did}")
     @PreAuthorize("hasRole('DOCTOR')")
     private ResponseEntity<Patient> recommendIP(@PathVariable("pid") String pid, @PathVariable("did") String did) {

@@ -9,7 +9,7 @@ import java.util.List;
 public interface AdminService {
     Admin saveAdmin(Admin admin);
     LoginResponse verifyAdmin(LoginDTO credentials);
-    Doctor saveDoctor(Doctor doc);
+    Doctor saveDoctor(Doctor doc,String specialization);
     Nurse saveNurse(Nurse nurse);
     Receptionist saveReceptionist(Receptionist rec);
     Pharmacy savePharmacy(Pharmacy pharma);

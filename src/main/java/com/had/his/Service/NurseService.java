@@ -5,6 +5,7 @@ import com.had.his.Entity.*;
 import com.had.his.Response.LoginResponse;
 
 import java.util.List;
+import java.util.Map;
 
 public interface NurseService {
 
@@ -91,6 +92,8 @@ public interface NurseService {
     void deleteTestImages(Long testimageId);
 
     Test viewTestById(String patientId,Integer id);
+
+    Map<String, Boolean> checkVitalsAndSymptoms(String patientId);
 
 
 }

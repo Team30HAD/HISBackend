@@ -9,4 +9,8 @@ import java.util.List;
 public interface SpecializationDAO extends JpaRepository<Specialization,Long> {
     @Query("select distinct s.specializationName from Specialization s")
     List<String> findALLSpecializations();
+    @Query("select distinct s.specializationName from Specialization s,Doctor d where d.specialization=s and d.department = 'IP'")
+    List<String> findSpecializationByIP();
+    @Query("select s from Specialization s where s.specializationName=?1")
+    Specialization getSpecializationByName(String spec);
 }

@@ -104,6 +104,7 @@ public class ReceptionistServiceImpl implements ReceptionistService {
             patient.setEmail(appointment.getEmail());
         }
         patient.setDepartment("OP");
+        patient.setChecked(false);
         Visit visit = new Visit();
         Doctor doctor = doctorDAO.findByDoctorId(appointment.getDoctorId());
         visit.setDoctor(doctor);
@@ -144,6 +145,7 @@ public class ReceptionistServiceImpl implements ReceptionistService {
             patient.setEmail(appointment.getEmail());
         }
         patient.setDepartment("OP");
+        patient.setChecked(false);
         Visit visit = new Visit();
         visit.setDoctor(doctorDAO.findByDoctorId(appointment.getDoctorId()));
         visit.setEmergency(appointment.getEmergency());

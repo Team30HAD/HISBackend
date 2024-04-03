@@ -99,31 +99,13 @@ public class NurseController {
         return new ResponseEntity<>(vitals, HttpStatus.OK);
     }
 
-    @Autowired
-    private PatientDAO patientDAO;
     @GetMapping("/vitals-and-symptoms/{patientId}")
     @PreAuthorize("hasRole('NURSE')")
     public ResponseEntity<?> checkVitalsAndSymptoms(@PathVariable String patientId) {
         try {
-            // Query the database to find the patient by ID
-            Patient patient = patientDAO.findPatientDetailsById(patientId);
-
-            if (patient == null) {
-                return ResponseEntity.notFound().build();
-            }
-
-            // Check if vitals and symptoms are filled for the patient
-            boolean vitalsFilled = patient.getVitals() != null; // Modify this based on your actual implementation
-            boolean symptomsFilled = patient.getSymptoms() != null; // Modify this based on your actual implementation
-
-            // Prepare the response
-            // You can customize the response structure as per your requirements
-            return ResponseEntity.ok(Map.of("vitalsFilled", vitalsFilled, "symptomsFilled", symptomsFilled));
+            return ResponseEntity.ok(nurseService.checkVitalsAndSymptoms(patientId));
         } catch (Exception e) {
-            // Log the exception for debugging purposes
             e.printStackTrace();
-
-            // Return an error response with detailed message
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error occurred: " + e.getMessage());
         }
     }

@@ -62,6 +62,8 @@ public interface DoctorService {
 
     Visit addDisease(String pid,String disease);
 
+    String getDisease(String pid);
+
     Patient recommendIP(String pid, String did);
 
     Patient dischargePatient(String pid);

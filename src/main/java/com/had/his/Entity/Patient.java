@@ -39,6 +39,9 @@ public class Patient {
     @Column(name = "department", nullable = false)
     private String department;
 
+    @Column(name = "checked", nullable = false)
+    private Boolean checked;
+
     @JsonIgnore
     @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
     private List<PastHistory> pastHistories;
@@ -71,8 +74,9 @@ public class Patient {
     @JsonIgnore
     private List<Visit> visit;
 
-    public Patient(Long Id, String patientId, String patientName, Integer age, String sex, String contact, String email, String department, Boolean emergency, String specialization, String disease, Doctor doctor, List<Medication> medications, List<PastHistory> pastHistories, Symptoms symptoms, Vitals vitals,Consent consent, List<SymptomImages> symptomImages, Bed bed, List<Progress> progress, List<Visit> visit) {
-        this.Id = Id;
+
+    public Patient(Long id, String patientId, String patientName, Integer age, String sex, String contact, String email, String department, Boolean checked, List<PastHistory> pastHistories, Symptoms symptoms, Vitals vitals, Consent consent, List<SymptomImages> symptomImages, Bed bed, List<Progress> progress, List<Visit> visit) {
+        Id = id;
         this.patientId = patientId;
         this.patientName = patientName;
         this.age = age;
@@ -80,6 +84,7 @@ public class Patient {
         this.contact = contact;
         this.email = email;
         this.department = department;
+        this.checked = checked;
         this.pastHistories = pastHistories;
         this.symptoms = symptoms;
         this.vitals = vitals;
@@ -89,7 +94,6 @@ public class Patient {
         this.progress = progress;
         this.visit = visit;
     }
-
 
     public Patient() {
     }
@@ -158,6 +162,13 @@ public class Patient {
         this.department = department;
     }
 
+    public Boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Boolean checked) {
+        this.checked = checked;
+    }
 
     public List<PastHistory> getPastHistories() {
         return pastHistories;
@@ -251,6 +262,7 @@ public class Patient {
                 ", contact='" + contact + '\'' +
                 ", email='" + email + '\'' +
                 ", department='" + department + '\'' +
+                ", checked=" + checked +
                 ", pastHistories=" + pastHistories +
                 ", symptoms=" + symptoms +
                 ", vitals=" + vitals +

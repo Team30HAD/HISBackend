@@ -27,8 +27,8 @@ public class Test {
     private Boolean pastTest;
 
 
-    @JsonIgnore
-    @ManyToOne
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "tests"})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vid",nullable = false)
     private Visit visit;
 

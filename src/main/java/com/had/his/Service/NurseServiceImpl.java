@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -226,8 +227,7 @@ public class NurseServiceImpl implements NurseService {
     @Override
     public PastHistory addPastHistory(String patientId,PastHistory pastHistory){
         Patient patient=patientDAO.findPatientDetailsById(patientId);
-        LocalDate currentDate = LocalDate.now();
-        pastHistory.setRecordedAt(currentDate);
+        pastHistory.setRecordedAt(pastHistory.getRecordedAt());
         pastHistory.setPatient(patient);
         return pastHistoryDAO.save(pastHistory) ;
     }
@@ -447,5 +447,10 @@ public class NurseServiceImpl implements NurseService {
     }
 
 
+    public Map<String, Boolean> checkVitalsAndSymptoms(String patientId) {
+        boolean vitalsFilled = vitalsDAO.getVitalsByPatient(patientId) != null;
+        boolean symptomsFilled = symptomsDAO.getSymptomsByPatient(patientId) != null;
+        return Map.of("vitalsFilled", vitalsFilled, "symptomsFilled", symptomsFilled);
+    }
 
 }

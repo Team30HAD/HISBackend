@@ -226,6 +226,11 @@ public class DoctorServiceImpl implements DoctorService{
         return visitDAO.save(newVisit);
     }
 
+    @Override
+    public String getDisease(String pid) {
+        return visitDAO.getRecentVisit(pid).getDisease();
+    }
+
     public Patient recommendIP(String pid,String did){
         Patient newPatient = patientDAO.findPatientDetailsById(pid);
         newPatient.setDepartment("IP");
@@ -274,7 +279,7 @@ public class DoctorServiceImpl implements DoctorService{
 
     @Override
     public List<String> getSpecializations() {
-        return specializationDAO.findALLSpecializations();
+        return specializationDAO.findSpecializationByIP();
     }
 
     public List<Doctor> getDoctorsBySpecialization(String specialization){
