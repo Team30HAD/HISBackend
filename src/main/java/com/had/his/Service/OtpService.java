@@ -10,9 +10,7 @@ import java.util.Random;
 
 public class OtpService {
 
-    private static final String ACCOUNT_SID = "AC1b5167fe9295dd0268989101a211f4bd";
-    private static final String AUTH_TOKEN = "b44b4691d8e2233cad8fb1de70596067";
-    private static final String TWILIO_PHONE_NUMBER = "+14123123263";
+    
 
     // Map to store generated OTPs with patient mobile numbers
     private static final Map<String, String> otpMap = new HashMap<>();
