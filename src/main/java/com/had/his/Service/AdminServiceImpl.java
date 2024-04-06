@@ -273,6 +273,11 @@ public class AdminServiceImpl implements AdminService {
         return specializationDAO.save(specialization);
     }
 
+    public List<String> viewSpecializations()
+    {
+        return specializationDAO.findALLSpecializations();
+    }
+
 }
 
 

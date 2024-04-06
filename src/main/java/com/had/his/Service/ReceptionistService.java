@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface ReceptionistService {
 
+    Receptionist getReceptionistDetailsByEmail(String email);
     LoginResponse verifyReceptionist(LoginDTO loginDTO);
 
     Patient getPatientDetails(String pid);
@@ -39,4 +40,5 @@ public interface ReceptionistService {
     List<Doctor> getOutdoorDoctorsBySpecialization(String specialization);
 
     List<String> getSpecialization();
+    List<ReceptionistSchedule> viewReceptionistScheduleById(String receptionistId);
 }

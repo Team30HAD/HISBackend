@@ -349,4 +349,16 @@ public class AdminController {
         }
     }
 
+    @GetMapping("/viewSpecializations")
+    @PreAuthorize(("hasRole('ADMIN')"))
+    private ResponseEntity<List<String>> getSpecialization(){
+        try{
+            List<String> specialization= adminService.viewSpecializations();
+            return ResponseEntity.ok(specialization);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 }

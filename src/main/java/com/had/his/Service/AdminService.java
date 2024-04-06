@@ -31,14 +31,12 @@ public interface AdminService {
     long countDoctor();
     long countNurse();
     long countReceptionist();
-
     long countPharmacy();
-
     Doctor editDoctor(String did,Doctor doctor);
     Nurse editNurse(String nid,Nurse nurse);
     Pharmacy editPharmacy(String phid,Pharmacy pharma);
     Receptionist editReceptionist(String rid,Receptionist recep);
     Hospital getHospital();
-
     Specialization addSpecialization(Specialization specialization);
+    List<String> viewSpecializations();
 }

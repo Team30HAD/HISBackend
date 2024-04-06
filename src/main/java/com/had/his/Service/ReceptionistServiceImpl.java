@@ -44,6 +44,9 @@ public class ReceptionistServiceImpl implements ReceptionistService {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    @Autowired
+    private ReceptionistScheduleDAO receptionistScheduleDAO;
+
 
     public LoginResponse verifyReceptionist(LoginDTO loginDto) {
         Receptionist receptionist = receptionistDAO.findByEmail(loginDto.getEmail());
@@ -249,4 +252,17 @@ public class ReceptionistServiceImpl implements ReceptionistService {
     @Override
     public List<String> getSpecialization() {
         return specializationDAO.findALLSpecializations();    }
+
+    @Transactional
+    public List<ReceptionistSchedule> viewReceptionistScheduleById(String receptionistId)
+    {
+
+        List<ReceptionistSchedule> receptionistSchedules=receptionistScheduleDAO.getReceptionistScheduleById(receptionistId);
+        return  receptionistSchedules;
+    }
+    @Transactional
+    public Receptionist getReceptionistDetailsByEmail(String email) {
+        return receptionistDAO.findByEmail(email);
+    }
+
 }

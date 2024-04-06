@@ -280,7 +280,19 @@ public class ReceptionistController {
         }
     }
 
+    @GetMapping("/viewReceptionistScheduleById/{receptionistId}")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
+    public ResponseEntity<List<ReceptionistSchedule>> viewReceptionistScheduleById(@PathVariable String receptionistId) {
+        List<ReceptionistSchedule> receptionistSchedules = receptionistService.viewReceptionistScheduleById(receptionistId);
+        return new ResponseEntity<>(receptionistSchedules, HttpStatus.OK);
+    }
 
+    @GetMapping("/getReceptionistDetailsByEmail/{email}")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
+    public ResponseEntity<Receptionist> getReceptionistDetailsByEmail(@PathVariable String email) {
+        Receptionist receptionistDto = receptionistService.getReceptionistDetailsByEmail(email);
+        return new ResponseEntity<>(receptionistDto, HttpStatus.OK);
+    }
 
 
 }
