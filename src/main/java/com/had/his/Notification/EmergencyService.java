@@ -15,9 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmergencyService {
 
-    public static final String ACCOUNT_SID = "AC029cddf34a58b8b13dfb781ea5117fd4";
-    public static final String AUTH_TOKEN = "a181a6633d8432065c99e6de9177aaea";
-    public static final String TWILIO_PHONE_NUMBER = "+14583121058";
+    
 
 
     @Autowired
