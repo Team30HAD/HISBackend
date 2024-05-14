@@ -2,6 +2,7 @@ package com.had.his.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+<<<<<<< HEAD
 import com.had.his.Encryption.StringCryptoConverter;
 import com.had.his.Role.UserRole;
 import jakarta.persistence.*;
@@ -9,6 +10,10 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+=======
+import com.had.his.Role.UserRole;
+import jakarta.persistence.*;
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,7 +52,10 @@ public class Doctor implements UserDetails {
     @Convert(converter = StringCryptoConverter.class)
     @Column(nullable = false)
     private String qualification;
+<<<<<<< HEAD
     @NotEmpty(message = "Please enter the department")
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     @Column(nullable = false)
     private String department;
 
@@ -229,7 +237,11 @@ public class Doctor implements UserDetails {
         return true;
     }
 
+<<<<<<< HEAD
   /*  public void setPassword(String password) {
+=======
+    public void setPassword(String password) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         this.password = passwordEncoder.encode(password);
     }*/
@@ -320,7 +332,11 @@ public class Doctor implements UserDetails {
         newVisit.setDoctor(this);
     }
 
+<<<<<<< HEAD
     public Doctor(Long Id, String doctorId,String name, String age, String sex, String qualification,
+=======
+    public Doctor(Long Id, String doctorId,String name, Integer age, String sex, String qualification,
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
                   Specialization specialization, String department, String contact, String licenseNumber ,Boolean availability ,Boolean active ,UserRole role,List<Visit> visits ,String photo, String password) {
         this.Id = Id;
         this.doctorId=doctorId;

@@ -2,7 +2,10 @@ package com.had.his.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+<<<<<<< HEAD
 import jakarta.validation.constraints.NotEmpty;
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
 import java.util.List;
 
@@ -14,7 +17,10 @@ public class Specialization {
     @Column(name="specialization_id")
     private Long sId;
 
+<<<<<<< HEAD
     @NotEmpty(message = "Mention specialization")
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     @Column(name = "specialization_name",unique = true,nullable = false)
     private String specializationName;
 

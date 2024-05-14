@@ -65,6 +65,7 @@ public class DoctorServiceImpl implements DoctorService{
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+<<<<<<< HEAD
 
     @Autowired
     private TokenDAO tokenDAO;
@@ -86,26 +87,44 @@ public class DoctorServiceImpl implements DoctorService{
     public LoginResponse verifyDoctor(LoginDTO credentials) {
         String email = aesUtil.decrypt(credentials.getEmail());
         String enteredPassword = aesUtil.decrypt(credentials.getPassword());
+=======
+   @Override
+    public LoginResponse verifyDoctor(LoginDTO credentials) {
+        String email = credentials.getEmail();
+        String enteredPassword = credentials.getPassword();
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
         Doctor doc = doctorDAO.findByEmail(email);
         if (doc != null && doc.getActive()) {
             if( doc.isPasswordMatch(enteredPassword))
             {
+<<<<<<< HEAD
                 String token = tokenDAO.findByUsername(email);
                 if (token != null) {
                     return new LoginResponse("Already logged in", false, null);
                 }
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
                 doc.setAvailability(true);
                 doctorDAO.save(doc);
                 String jwttoken= jwtTokenProvider.generateToken(doc);
                 return new LoginResponse("Login Successful",true,jwttoken);
             } else {
+<<<<<<< HEAD
                 return new LoginResponse("Password not matched", null, null);
             }
         }
         else{
             return new LoginResponse("Invalid User.", null, null);
         }
+=======
+                return new LoginResponse("Password not matched", false, null);
+            }
+        }
+        else{
+                return new LoginResponse("Invalid User.", false, null);
+            }
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     }
 
     @Transactional
@@ -137,6 +156,7 @@ public class DoctorServiceImpl implements DoctorService{
         return patientDAO.getEmergencyPatients(email);
     }
 
+<<<<<<< HEAD
     public Patient getPatientDetails(String pid,String consenttoken) {
         if(consentService.verifyConsent(pid,consenttoken)){
             return patientDAO.findPatientDetailsById(pid);
@@ -144,6 +164,35 @@ public class DoctorServiceImpl implements DoctorService{
         else {
             return null;
         }
+=======
+    public Patient getPatientDetails(String pid) {
+        return patientDAO.findPatientDetailsById(pid);
+    }
+
+
+    public Vitals getVitals(String pid){
+        return vitalsDAO.getVitalsByPatient(pid);
+    }
+
+    public Symptoms getSymptoms(String pid){
+        return symptomsDAO.getSymptomsByPatient(pid);
+    }
+
+    public List<SymptomImages> getSymptomImages(String pid) {
+        return symptomImagesDAO.getSymptomImagesByPatient(pid);
+    }
+
+    public List<PastHistory> getPastHistory(String pid){
+        return pastHistoryDAO.getPastHistoriesByPatient(pid);
+    }
+
+    public List<PastImages> getPastImages(Integer phid){
+        return pastImagesDAO.getPastImagesByPastHistory(phid);
+    }
+
+    public List<Medication> getPastMedications(String pid) {
+        return medicationDAO.getPastMedicationsByPatient(pid);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     }
 
 
@@ -243,7 +292,11 @@ public class DoctorServiceImpl implements DoctorService{
         med.setPastMedication(false);
         med.setPrescribedOn(LocalDate.now());
         med.setServed(false);
+<<<<<<< HEAD
         med.setVisit(visitDAO.getRecentVisitByDoctor(pid,email));
+=======
+        med.setVisit(visitDAO.getRecentVisit(pid));
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         return medicationDAO.save(med);
     }
 
@@ -259,6 +312,7 @@ public class DoctorServiceImpl implements DoctorService{
     }
 
     public void deleteMedication(String pid,Integer mid){
+        System.out.println(mid);
         Medication medication=medicationDAO.findMedicationByMedicineId(pid,mid);
         medicationDAO.delete(medication);
     }
@@ -309,10 +363,22 @@ public class DoctorServiceImpl implements DoctorService{
         return newVisit.getDisease();
     }
 
+<<<<<<< HEAD
     public Patient recommendIP(String pid,String did,String email){
         Patient newPatient = patientDAO.findPatientDetailsById(pid);
         newPatient.setDepartment("IP");
         Visit newVisit=visitDAO.getRecentVisitByDoctor(pid,email);
+=======
+    @Override
+    public String getDisease(String pid) {
+        return visitDAO.getRecentVisit(pid).getDisease();
+    }
+
+    public Patient recommendIP(String pid,String did){
+        Patient newPatient = patientDAO.findPatientDetailsById(pid);
+        newPatient.setDepartment("IP");
+        Visit newVisit=visitDAO.getRecentVisit(pid);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         Doctor doctor = doctorDAO.findByDoctorId(did);
         newVisit.setDoctor(doctor);
         newVisit.setSpecialization(doctor.getSpecialization().getSpecializationName());
@@ -382,6 +448,7 @@ public class DoctorServiceImpl implements DoctorService{
         return doctorDAO.save(newDoc);
     }
 
+<<<<<<< HEAD
     @Override
     public Patient findPatient(String email, String pid,String consenttoken) {
         if(consentService.verifyConsent(pid,consenttoken)) {
@@ -490,4 +557,6 @@ public class DoctorServiceImpl implements DoctorService{
     public String getContactFromEmail(String email){
         return doctorDAO.getContactFromEmail(email);
     }
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 }

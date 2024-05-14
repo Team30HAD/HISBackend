@@ -40,8 +40,13 @@ public class Test {
     private List<TestImages> testImages;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "tests"})
+<<<<<<< HEAD
     @ManyToOne
     @JoinColumn(name = "vid", nullable = false)
+=======
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vid",nullable = false)
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     private Visit visit;
 
 

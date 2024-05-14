@@ -12,11 +12,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+<<<<<<< HEAD
 import java.io.IOException;
 import java.io.InputStream;
 
 @SpringBootApplication
 @EnableScheduling
+=======
+@SpringBootApplication
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 public class HisApplication {
 
 	@Bean

@@ -26,7 +26,11 @@ public class DoctorController {
 
 
     @PostMapping("/login")
+<<<<<<< HEAD
     public ResponseEntity<?> doctorLogin(@Valid  @RequestBody LoginDTO credentials) {
+=======
+    public ResponseEntity<?> doctorLogin(@RequestBody LoginDTO credentials) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             LoginResponse loginResponse=doctorService.verifyDoctor(credentials);
             return ResponseEntity.ok(loginResponse);
@@ -47,7 +51,11 @@ public class DoctorController {
 
     @PostMapping("/passwordChange")
     @PreAuthorize("hasRole('DOCTOR')")
+<<<<<<< HEAD
     public ResponseEntity<Doctor> changeDoctorPassword(@Valid @RequestBody LoginDTO credentials) {
+=======
+    public ResponseEntity<Doctor> changeDoctorPassword(@RequestBody LoginDTO credentials) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Doctor newDoctor = doctorService.changePassword(credentials);
             return ResponseEntity.ok(newDoctor);
@@ -93,9 +101,15 @@ public class DoctorController {
         }
     }
 
+<<<<<<< HEAD
     @GetMapping("/patientDetails/{pid}/{consenttoken}")
     @PreAuthorize("hasRole('DOCTOR')")
     private ResponseEntity<Patient> getPatientDetails(@PathVariable("pid") String pid,@PathVariable String consenttoken) {
+=======
+    @GetMapping("/patientDetails/{pid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    private ResponseEntity<Patient> getPatientDetails(@PathVariable("pid") String pid) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Patient patient = doctorService.getPatientDetails(pid,consenttoken);
             return ResponseEntity.ok(patient);
@@ -105,9 +119,15 @@ public class DoctorController {
         }
     }
 
+<<<<<<< HEAD
     @GetMapping("/patientVitals/{pid}/{consenttoken}")
     @PreAuthorize("hasRole('DOCTOR')")
     private ResponseEntity<Vitals> getVitalDetails(@PathVariable("pid") String pid,@PathVariable String consenttoken) {
+=======
+    @GetMapping("/patientVitals/{pid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    private ResponseEntity<Vitals> getVitalDetails(@PathVariable("pid") String pid) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Vitals vitals = doctorService.getVitals(pid,consenttoken);
             return ResponseEntity.ok(vitals);
@@ -117,9 +137,15 @@ public class DoctorController {
         }
     }
 
+<<<<<<< HEAD
     @GetMapping("/patientSymptoms/{pid}/{consenttoken}")
     @PreAuthorize("hasRole('DOCTOR')")
     private ResponseEntity<Symptoms> getSymptoms(@PathVariable("pid") String pid,@PathVariable String consenttoken) {
+=======
+    @GetMapping("/patientSymptoms/{pid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    private ResponseEntity<Symptoms> getSymptoms(@PathVariable("pid") String pid) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Symptoms symptoms = doctorService.getSymptoms(pid,consenttoken);
             return ResponseEntity.ok(symptoms);
@@ -129,9 +155,15 @@ public class DoctorController {
         }
     }
 
+<<<<<<< HEAD
     @GetMapping("/symptomImages/{pid}/{consenttoken}")
     @PreAuthorize("hasRole('DOCTOR')")
     private ResponseEntity<List<SymptomImages>> getSymptomImages(@PathVariable("pid") String pid,@PathVariable String consenttoken) {
+=======
+    @GetMapping("/symptomImages/{pid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    private ResponseEntity<List<SymptomImages>> getSymptomImages(@PathVariable("pid") String pid) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             List<SymptomImages> symptomImages = doctorService.getSymptomImages(pid,consenttoken);
             return ResponseEntity.ok(symptomImages);
@@ -141,9 +173,15 @@ public class DoctorController {
         }
     }
 
+<<<<<<< HEAD
     @GetMapping("/pastHistory/{pid}/{consenttoken}")
     @PreAuthorize("hasRole('DOCTOR')")
     private ResponseEntity<List<PastHistory>> getPastHistory(@PathVariable("pid") String pid,@PathVariable String consenttoken) {
+=======
+    @GetMapping("/pastHistory/{pid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    private ResponseEntity<List<PastHistory>> getPastHistory(@PathVariable("pid") String pid) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             List<PastHistory> pastHistories = doctorService.getPastHistory(pid,consenttoken);
             return ResponseEntity.ok(pastHistories);
@@ -153,9 +191,15 @@ public class DoctorController {
         }
     }
 
+<<<<<<< HEAD
     @GetMapping("/pastImages/{phid}/{pid}/{consenttoken}")
     @PreAuthorize("hasRole('DOCTOR')")
     private ResponseEntity<List<PastImages>> getPastImages(@PathVariable("phid") Integer phid,@PathVariable("pid") String pid,@PathVariable String consenttoken) {
+=======
+    @GetMapping("/pastImages/{phid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    private ResponseEntity<List<PastImages>> getPastImages(@PathVariable("phid") Integer phid) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             List<PastImages> pastImages = doctorService.getPastImages(phid,pid,consenttoken);
             return ResponseEntity.ok(pastImages);
@@ -165,9 +209,15 @@ public class DoctorController {
         }
     }
 
+<<<<<<< HEAD
     @GetMapping("/pastMedications/{pid}/{consenttoken}")
     @PreAuthorize("hasRole('DOCTOR')")
     private ResponseEntity<List<Medication>> getPastMedications(@PathVariable("pid") String pid,@PathVariable String consenttoken) {
+=======
+    @GetMapping("/pastMedications/{pid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    private ResponseEntity<List<Medication>> getPastMedications(@PathVariable("pid") String pid) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             List<Medication> medications = doctorService.getPastMedications(pid,consenttoken);
             return ResponseEntity.ok(medications);
@@ -177,9 +227,15 @@ public class DoctorController {
         }
     }
 
+<<<<<<< HEAD
     @GetMapping("/pastTests/{pid}/{consenttoken}")
     @PreAuthorize("hasRole('DOCTOR')")
     private ResponseEntity<List<Test>> getPastTests(@PathVariable("pid") String pid,@PathVariable String consenttoken) {
+=======
+    @GetMapping("/pastTests/{pid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    private ResponseEntity<List<Test>> getPastTests(@PathVariable("pid") String pid) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             List<Test> tests = doctorService.getPastTests(pid,consenttoken);
             return ResponseEntity.ok(tests);
@@ -191,7 +247,11 @@ public class DoctorController {
 
     @PostMapping("/recordProgress/{pid}")
     @PreAuthorize("hasRole('DOCTOR')")
+<<<<<<< HEAD
     private ResponseEntity<Progress> addProgress(@PathVariable("pid") String pid,@Valid @RequestBody Progress progress) {
+=======
+    private ResponseEntity<Progress> addProgress(@PathVariable("pid") String pid, @RequestBody Progress progress) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Progress newProgress=doctorService.saveProgress(pid,progress);
             return ResponseEntity.ok(newProgress);
@@ -201,9 +261,15 @@ public class DoctorController {
         }
     }
 
+<<<<<<< HEAD
     @GetMapping("/progressHistory/{pid}/{consenttoken}")
     @PreAuthorize("hasRole('DOCTOR')")
     private ResponseEntity<List<Progress>> getProgressHistory(@PathVariable("pid") String pid,@PathVariable String consenttoken) {
+=======
+    @GetMapping("/progressHistory/{pid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    private ResponseEntity<List<Progress>> getProgressHistory(@PathVariable("pid") String pid) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             List<Progress> progresses = doctorService.getProgressHistory(pid,consenttoken);
             return ResponseEntity.ok(progresses);
@@ -213,9 +279,15 @@ public class DoctorController {
         }
     }
 
+<<<<<<< HEAD
     @GetMapping("/viewMedications/{pid}/{consenttoken}/{email}")
     @PreAuthorize("hasRole('DOCTOR')")
     private ResponseEntity<List<Medication>> getMedications(@PathVariable("pid") String pid,@PathVariable String consenttoken,@PathVariable String email) {
+=======
+    @GetMapping("/viewMedications/{pid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    private ResponseEntity<List<Medication>> getMedications(@PathVariable("pid") String pid) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             List<Medication> medications = doctorService.getMedications(pid,consenttoken,email);
             return ResponseEntity.ok(medications);
@@ -237,9 +309,15 @@ public class DoctorController {
         }
     }
 
+<<<<<<< HEAD
     @PostMapping("/addMedication/{pid}/{email}")
     @PreAuthorize("hasRole('DOCTOR')")
     private ResponseEntity<Medication> addMedication(@PathVariable("pid") String pid,@PathVariable("email") String email,@Valid @RequestBody Medication med){
+=======
+    @PostMapping("/addMedication/{pid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    private ResponseEntity<Medication> addMedication(@PathVariable("pid") String pid, @RequestBody Medication med){
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Medication newMedication = doctorService.saveMedication(pid,med,email);
             return ResponseEntity.ok(newMedication);
@@ -251,7 +329,11 @@ public class DoctorController {
 
     @PutMapping("/editMedication/{pid}/{mid}")
     @PreAuthorize("hasRole('DOCTOR')")
+<<<<<<< HEAD
     private ResponseEntity<Medication> editMedication(@PathVariable("pid") String pid,@Valid @PathVariable("mid") Integer mid, @RequestBody Medication med){
+=======
+    private ResponseEntity<Medication> editMedication(@PathVariable("pid") String pid, @PathVariable("mid") Integer mid, @RequestBody Medication med){
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Medication newMedication = doctorService.editMedication(pid,mid,med);
             return ResponseEntity.ok(newMedication);
@@ -273,9 +355,15 @@ public class DoctorController {
         }
     }
 
+<<<<<<< HEAD
     @GetMapping("/viewTests/{pid}/{consenttoken}/{email}")
     @PreAuthorize("hasRole('DOCTOR')")
     private ResponseEntity<List<Test>> getTests(@PathVariable("pid") String pid,@PathVariable String consenttoken,@PathVariable String email) {
+=======
+    @GetMapping("/viewTests/{pid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    private ResponseEntity<List<Test>> getTests(@PathVariable("pid") String pid) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             List<Test> tests = doctorService.getTests(pid,consenttoken,email);
             return ResponseEntity.ok(tests);
@@ -297,9 +385,15 @@ public class DoctorController {
         }
     }
 
+<<<<<<< HEAD
     @PostMapping("/addTest/{pid}/{email}")
     @PreAuthorize("hasRole('DOCTOR')")
     private ResponseEntity<Test> addTest(@PathVariable("pid") String pid,@PathVariable("email") String email,@Valid @RequestBody Test test){
+=======
+    @PostMapping("/addTest/{pid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    private ResponseEntity<Test> addTest(@PathVariable("pid") String pid, @RequestBody Test test){
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Test newTest = doctorService.saveTest(pid,test,email);
             return ResponseEntity.ok(newTest);
@@ -311,7 +405,11 @@ public class DoctorController {
 
     @PutMapping("/editTest/{pid}/{tid}")
     @PreAuthorize("hasRole('DOCTOR')")
+<<<<<<< HEAD
     private ResponseEntity<Test> editTest(@PathVariable("pid") String pid, @PathVariable("tid") Integer tid,@Valid @RequestBody Test test){
+=======
+    private ResponseEntity<Test> editTest(@PathVariable("pid") String pid, @PathVariable("tid") Integer tid, @RequestBody Test test){
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Test newTest = doctorService.editTest(pid,tid,test);
             return ResponseEntity.ok(newTest);
@@ -332,9 +430,15 @@ public class DoctorController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+<<<<<<< HEAD
     @GetMapping("/testImages/{tid}/{pid}/{consenttoken}")
     @PreAuthorize("hasRole('DOCTOR')")
     private ResponseEntity<List<TestImages>> getTestImages(@PathVariable("tid") Integer tid,@PathVariable("pid") String pid,@PathVariable String consenttoken) {
+=======
+    @GetMapping("/testImages/{tid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    private ResponseEntity<List<TestImages>> getTestImages(@PathVariable("tid") Integer tid) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             List<TestImages> testImage = doctorService.getTestImages(tid,pid,consenttoken);
             return ResponseEntity.ok(testImage);
@@ -344,9 +448,15 @@ public class DoctorController {
         }
     }
 
+<<<<<<< HEAD
     @PostMapping("/setDisease/{pid}/{disease}/{email}")
     @PreAuthorize("hasRole('DOCTOR')")
     private ResponseEntity<String> setDisease(@PathVariable("pid") String pid,@PathVariable("email") String email ,@PathVariable("disease") String disease) {
+=======
+    @PostMapping("/setDisease/{pid}/{disease}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    private ResponseEntity<Visit> setDisease(@PathVariable("pid") String pid, @PathVariable("disease") String disease) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             String newDisease = doctorService.addDisease(pid,disease,email);
             return ResponseEntity.ok(newDisease);
@@ -356,9 +466,28 @@ public class DoctorController {
         }
     }
 
+<<<<<<< HEAD
     @PutMapping("/editDisease/{pid}/{disease}/{email}")
     @PreAuthorize("hasRole('DOCTOR')")
     private ResponseEntity<String> editDisease(@PathVariable("pid") String pid,@PathVariable("email") String email ,@PathVariable("disease") String disease) {
+=======
+    @GetMapping("/getDisease/{pid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    private ResponseEntity<String> getDisease(@PathVariable("pid") String pid){
+        try {
+            String disease = doctorService.getDisease(pid);
+            return ResponseEntity.ok(disease);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+
+    @PutMapping("/changetoIP/{pid}/{did}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    private ResponseEntity<Patient> recommendIP(@PathVariable("pid") String pid, @PathVariable("did") String did) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             String newDisease = doctorService.editDisease(pid,disease,email);
             return ResponseEntity.ok(newDisease);
@@ -394,9 +523,15 @@ public class DoctorController {
         }
     }
 
+<<<<<<< HEAD
     @PostMapping("/discharge/{pid}/{email}")
     @PreAuthorize("hasRole('DOCTOR')")
     private ResponseEntity<Patient> dischargePatient(@PathVariable("pid") String pid,@PathVariable("email") String email) {
+=======
+    @PostMapping("/discharge/{pid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    private ResponseEntity<Patient> dischargePatient(@PathVariable("pid") String pid) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Patient patient = doctorService.dischargePatient(pid,email);
             return ResponseEntity.ok(patient);
@@ -467,6 +602,7 @@ public class DoctorController {
         }
     }
 
+<<<<<<< HEAD
     @GetMapping("/viewDetails/{email}/{pid}/{consenttoken}")
     @PreAuthorize("hasRole('DOCTOR')")
     private ResponseEntity<Patient> viewDetails(@PathVariable("email") String email, @PathVariable("pid") String pid,@PathVariable String consenttoken)
@@ -631,4 +767,6 @@ public class DoctorController {
         return new ResponseEntity<>(contact,HttpStatus.OK);
     }
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 }

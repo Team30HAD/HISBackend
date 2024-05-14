@@ -10,6 +10,7 @@ import java.util.Map;
 public interface AdminService {
 
     Admin saveAdmin(Admin admin);
+<<<<<<< HEAD
 
     Admin changePassword(LoginDTO loginDTO);
 
@@ -19,6 +20,10 @@ public interface AdminService {
 
     Doctor saveDoctor(Doctor doc,String specialization);
 
+=======
+    LoginResponse verifyAdmin(LoginDTO credentials);
+    Doctor saveDoctor(Doctor doc,String specialization);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     Nurse saveNurse(Nurse nurse);
 
     Receptionist saveReceptionist(Receptionist rec);
@@ -32,6 +37,7 @@ public interface AdminService {
     List<Doctor> getAllDoctors(String department);
 
     List<Pharmacy> getAllPharmacies();
+<<<<<<< HEAD
 
     Doctor getDoctor(String doctorId);
 
@@ -82,4 +88,28 @@ public interface AdminService {
     void deleteSpecialization(Long id);
 
     Specialization editSpecialization(Long id, String updatedSpecializationName);
+=======
+    Doctor getDoctor(String doctorId);
+    Nurse getNurse(String nurseId);
+    Receptionist getReceptionist(String recepId);
+    Pharmacy getPharmacy (String pharmaId);
+
+    void deactivateDoctor(String doctorId);
+
+    void deactivateNurse(String nurseId);
+    void deactivatePharmacy(String pharmaId);
+    void deactivateReceptionist(String recepId);
+    long countPatient();
+    long countDoctor();
+    long countNurse();
+    long countReceptionist();
+    long countPharmacy();
+    Doctor editDoctor(String did,Doctor doctor);
+    Nurse editNurse(String nid,Nurse nurse);
+    Pharmacy editPharmacy(String phid,Pharmacy pharma);
+    Receptionist editReceptionist(String rid,Receptionist recep);
+    Hospital getHospital();
+    Specialization addSpecialization(Specialization specialization);
+    List<String> viewSpecializations();
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 }

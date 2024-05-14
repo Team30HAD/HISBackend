@@ -11,10 +11,17 @@ public interface PatientDAO extends JpaRepository<Patient,Long> {
     @Query("select p from Patient p where p.patientId=?1")
     Patient findPatientDetailsById(String patientId);
 
+<<<<<<< HEAD
     @Query("select p from Patient p,Visit v,Consent c where v.patient.patientId=p.patientId and c.patient=p and c.expired=false and v.dischargedDate is null and v.emergency=false and p.vitals is not null and p.symptoms is not null and v.doctor.email=?1 order by v.admittedDate asc,v.admittedTime asc")
     List<Patient> getPatientsByDoctor(String email);
 
     @Query("select p from Patient p,Visit v,Consent c where v.patient.patientId=p.patientId and c.patient=p and c.expired=false and v.dischargedDate is null and v.emergency=true and p.vitals is not null and p.symptoms is not null and v.doctor.email=?1 order by v.admittedDate asc,v.admittedTime asc")
+=======
+    @Query("select p from Patient p,Visit v where v.patient.patientId=p.patientId and v.dischargedDate is null and v.emergency=false and p.vitals is not null and p.symptoms is not null and v.doctor.email=?1 order by v.admittedDate asc,v.admittedTime asc")
+    List<Patient> getPatientsByDoctor(String email);
+
+    @Query("select p from Patient p,Visit v where v.patient.patientId=p.patientId and v.dischargedDate is null and v.emergency=true and p.vitals is not null and p.symptoms is not null and v.doctor.email=?1 order by v.admittedDate asc,v.admittedTime asc")
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     List<Patient> getEmergencyPatients(String email);
 
     @Query("select p from Patient p,Visit v,Consent c where v.patient.patientId=p.patientId and c.patient=p and c.expired=false and v.dischargedDate is null and v.emergency=true order by v.admittedTime asc")

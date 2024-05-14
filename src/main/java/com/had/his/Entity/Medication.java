@@ -51,7 +51,11 @@ public class Medication {
     private Boolean served;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "medications"})
+<<<<<<< HEAD
     @ManyToOne
+=======
+    @ManyToOne(fetch = FetchType.LAZY)
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     @JoinColumn(name = "vid", nullable = false)
     private Visit visit;
 

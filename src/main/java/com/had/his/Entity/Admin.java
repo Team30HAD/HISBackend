@@ -1,6 +1,7 @@
 package com.had.his.Entity;
 
 
+<<<<<<< HEAD
 import com.had.his.Encryption.StringCryptoConverter;
 import com.had.his.Role.UserRole;
 import jakarta.persistence.*;
@@ -8,13 +9,20 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Length;
+=======
+import com.had.his.Role.UserRole;
+import jakarta.persistence.*;
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+<<<<<<< HEAD
 import java.security.SecureRandom;
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 import java.util.Collection;
 import java.util.Collections;
 
@@ -95,6 +103,7 @@ public class  Admin implements UserDetails {
         return true;
     }
 
+<<<<<<< HEAD
     /*public void setPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         this.password = passwordEncoder.encode(password);
@@ -126,6 +135,19 @@ public class  Admin implements UserDetails {
         // You can use another encryption algorithm here if needed
         // For demonstration, let's just return the concatenated string
         return passwordWithSalt;
+=======
+    public void setPassword(String password) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.password = passwordEncoder.encode(password);
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     }
 
     public boolean isPasswordMatch(String enteredPassword) {
@@ -133,6 +155,7 @@ public class  Admin implements UserDetails {
         return passwordEncoder.matches(enteredPassword, this.password);
     }
 
+<<<<<<< HEAD
     public UserRole getRole() {
         return role;
     }
@@ -146,6 +169,8 @@ public class  Admin implements UserDetails {
         return passwordEncoder.matches(enteredPassword, this.password);
     }*/
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     public Admin( String adminId, String email, String password,UserRole role) {
         this.adminId=adminId;
         this.email = email;

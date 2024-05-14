@@ -35,6 +35,7 @@ public class ReceptionistServiceImpl implements ReceptionistService {
 
     @Autowired
     private SymptomsDAO symptomsDAO;
+<<<<<<< HEAD
 
     @Autowired
     private VitalsDAO vitalsDAO;
@@ -119,7 +120,60 @@ public class ReceptionistServiceImpl implements ReceptionistService {
         tokenDAO.deletetoken(email);
     }
 
+=======
 
+    @Autowired
+    private VitalsDAO vitalsDAO;
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
+
+    @Autowired
+    private SpecializationDAO specializationDAO;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private ReceptionistScheduleDAO receptionistScheduleDAO;
+
+
+    public LoginResponse verifyReceptionist(LoginDTO loginDto) {
+        Receptionist receptionist = receptionistDAO.findByEmail(loginDto.getEmail());
+
+        if (receptionist != null && receptionist.getActive().equals(true)) {
+
+            List<ReceptionistSchedule> schedules = receptionist.getReceptionistSchedules();
+
+            if (!schedules.isEmpty()) {
+                LocalDate currentDate = LocalDate.now();
+                LocalTime currentTime = LocalTime.now();
+
+                for (ReceptionistSchedule schedule : schedules) {
+                    if (currentDate.getDayOfWeek() == schedule.getDay() &&
+                            currentTime.isAfter(schedule.getStartTime()) &&
+                            currentTime.isBefore(schedule.getEndTime())) {
+
+                        String password = loginDto.getPassword();
+
+                        boolean passMatch = receptionist.isPasswordMatch(password);
+
+                        if (passMatch) {
+                            System.out.println("Password matched");
+
+                            String jwtToken = jwtTokenProvider.generateToken(receptionist);
+                            return new LoginResponse("Login Successful", true, jwtToken);
+                        } else {
+                            return new LoginResponse("Password not matched", false, null);
+                        }
+                    }
+                }
+                return new LoginResponse("Receptionist can't login at this time.", false, null);
+            } else {
+                return new LoginResponse("Receptionist schedules not found.", false, null);
+            }
+        } else {
+            return new LoginResponse("Email not found or receptionist is not active", false, null); // Adjusted error message
+        }
+    }
 
     @Override
     public Patient getPatientDetails(String pid,String consenttoken)
@@ -149,6 +203,7 @@ public class ReceptionistServiceImpl implements ReceptionistService {
             patient.setAge(appointment.getAge());
             patient.setContact(appointment.getContact());
             patient.setEmail(appointment.getEmail());
+<<<<<<< HEAD
         }else{
             if(appointment.getName()!=null){
                 patient.setPatientName(appointment.getName());
@@ -167,6 +222,11 @@ public class ReceptionistServiceImpl implements ReceptionistService {
             }
         }
         patient.setDepartment("OP");
+=======
+        }
+        patient.setDepartment("OP");
+        patient.setChecked(false);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         Visit visit = new Visit();
         Doctor doctor = doctorDAO.findByDoctorId(appointment.getDoctorId());
         visit.setDoctor(doctor);
@@ -175,15 +235,29 @@ public class ReceptionistServiceImpl implements ReceptionistService {
         visit.setSpecialization(appointment.getCategory());
         visit.setAdmittedDate(LocalDate.now());
         visit.setAdmittedTime(LocalTime.now());
+<<<<<<< HEAD
         visit.setChecked(false);
         patient.addVisit(visit);
         patientDAO.save(patient);
         consentService.consentforExisting(pid,email);
+=======
+        patient.addVisit(visit);
+        patientDAO.save(patient);
+//        Consent consent = consentDAO.getConsentByPatient(pid);
+//        if(consent.getExpired()){
+//            consent.generateNewToken();
+//            consent.setExpired(false);
+//            consent.setTakenOn(LocalDate.now());
+//            consent.setTakenBy(email);
+//            consentDAO.save(consent);
+//        }
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         return visitDAO.save(visit);
     }
 
     @Override
     public Visit bookAppointmentForNewPatient(String email,AppointmentDTO appointment) {
+<<<<<<< HEAD
         System.out.println(appointment.getEmergency());
         if(!appointment.getEmergency()){
             if(appointment.getName().isEmpty()||appointment.getAge()==null||appointment.getContact()==null||appointment.getSex().isEmpty()) {
@@ -222,6 +296,16 @@ public class ReceptionistServiceImpl implements ReceptionistService {
             else {
                 patient.setEmail("emergency@example.com");
             }
+=======
+        Patient patient = new Patient();
+        if (appointment.getEmergency()) {
+            // Set default values for emergency patients
+            patient.setPatientName("Emergency Patient");
+            patient.setAge(30);
+            patient.setSex("Unknown");
+            patient.setContact("911");
+            patient.setEmail("emergency@example.com");
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         } else {
             // Set values based on appointment details
             patient.setPatientName(appointment.getName());
@@ -231,6 +315,10 @@ public class ReceptionistServiceImpl implements ReceptionistService {
             patient.setEmail(appointment.getEmail());
         }
         patient.setDepartment("OP");
+<<<<<<< HEAD
+=======
+        patient.setChecked(false);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         Visit visit = new Visit();
         visit.setDoctor(doctorDAO.findByDoctorId(appointment.getDoctorId()));
         visit.setEmergency(appointment.getEmergency());
@@ -244,7 +332,17 @@ public class ReceptionistServiceImpl implements ReceptionistService {
         visit.setTests(null);
         patient.addVisit(visit);
         patientDAO.save(patient);
+<<<<<<< HEAD
         consentService.createConsent(patient.getPatientId(),email);
+=======
+//    Consent consent = new Consent();
+//    consent.generateNewToken();
+//    consent.setExpired(false);
+//    consent.setTakenOn(LocalDate.now());
+//    consent.setTakenBy(email);
+//    consent.setPatient(patient);
+//    consentDAO.save(consent);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         return visitDAO.save(visit);
     }
 
@@ -266,22 +364,35 @@ public class ReceptionistServiceImpl implements ReceptionistService {
         Patient patient = patientDAO.findPatientDetailsById(patientId);
         assert patient != null;
         patient.setPatientName("Anonymous Patient");
+<<<<<<< HEAD
         patient.setAge("0");
+=======
+        patient.setAge(0);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         patient.setSex("NA");
         patient.setContact("No Contact Provided");
         patient.setEmail("No Email Provided");
         return patientDAO.save(patient);
     }
 
+<<<<<<< HEAD
     @Transactional
     public void deletePatientRecords(String patientId) {
         Patient patient = patientDAO.findPatientDetailsById(patientId);
         patient.setPatientName("Anonymous Patient");
         patient.setAge("0");
+=======
+    @Override
+    public void deletePatientRecords(String patientId) {
+        Patient patient = patientDAO.findPatientDetailsById(patientId);
+        patient.setPatientName("Anonymous Patient");
+        patient.setAge(0);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         patient.setSex("NA");
         patient.setContact("No Contact Provided");
         patient.setEmail("No Email Provided");
         patient.setDepartment("NA");
+<<<<<<< HEAD
         pastHistoryDAO.deleteAll(pastHistoryDAO.getPastHistoriesByPatient(patientId));
         vitalsDAO.deleteVitalsByPatient(patientId);
         symptomsDAO.deleteSymptomsByPatient(patientId);
@@ -292,6 +403,18 @@ public class ReceptionistServiceImpl implements ReceptionistService {
         Consent consent=consentDAO.getConsentByPatient(patientId);
         consent.setExpired(true);
         consentDAO.save(consent);
+=======
+//        pastHistoryDAO.deleteAll(pastHistoryDAO.getPastHistoriesByPatient(patientId));
+        vitalsDAO.deleteVitalsByPatient(patientId);
+        symptomsDAO.delete(symptomsDAO.getSymptomsByPatient(patientId));
+//        patient.setPastHistories(null);
+//        patient.setSymptoms(null);
+//        patient.setSymptomImages(null);
+//        patient.setVitals(null);
+//        patient.setBed(null);
+//        patient.setProgress(null);
+//        patient.setVisit(new ArrayList<Visit>());
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         patientDAO.save(patient);
     }
 
@@ -333,6 +456,7 @@ public class ReceptionistServiceImpl implements ReceptionistService {
     @Transactional
     public List<ReceptionistSchedule> viewReceptionistScheduleById(String receptionistId)
     {
+<<<<<<< HEAD
         return receptionistScheduleDAO.getReceptionistScheduleById(receptionistId);
     }
 
@@ -397,4 +521,15 @@ public class ReceptionistServiceImpl implements ReceptionistService {
         return OtpService.verifyOTP(contact,otp);
     }
 
+=======
+
+        List<ReceptionistSchedule> receptionistSchedules=receptionistScheduleDAO.getReceptionistScheduleById(receptionistId);
+        return  receptionistSchedules;
+    }
+    @Transactional
+    public Receptionist getReceptionistDetailsByEmail(String email) {
+        return receptionistDAO.findByEmail(email);
+    }
+
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 }

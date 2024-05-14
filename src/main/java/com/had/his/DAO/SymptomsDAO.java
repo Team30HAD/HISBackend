@@ -20,6 +20,10 @@ public interface SymptomsDAO extends JpaRepository<Symptoms,Long> {
     void deleteBySymptomId(Long symptomid);
 
     @Modifying
+<<<<<<< HEAD
     @Query("delete from Symptoms s where s.patient.patientId=?1")
     void deleteSymptomsByPatient(String pid);
+=======
+    void delete(Symptoms symptoms);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 }

@@ -13,7 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+<<<<<<< HEAD
 import java.util.*;
+=======
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
 @Service
 public class NurseServiceImpl implements NurseService {
@@ -33,6 +39,9 @@ public class NurseServiceImpl implements NurseService {
 
     @Autowired
     private SymptomsDAO symptomsDAO;
+    @Autowired
+    private HttpSession httpSession;
+
 
     @Autowired
     private HttpSession httpSession;
@@ -57,6 +66,7 @@ public class NurseServiceImpl implements NurseService {
 
     @Autowired
     private NurseScheduleDAO nurseScheduleDAO;
+<<<<<<< HEAD
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
@@ -82,6 +92,12 @@ public class NurseServiceImpl implements NurseService {
 
     public LoginResponse NurseLogin(LoginDTO loginDto) {
         Nurse nurse = nurseDAO.findByEmail(aesUtil.decrypt(loginDto.getEmail()));
+=======
+    @Autowired
+    private JwtTokenProvider JwtTokenProvider;
+
+
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
         if (nurse != null && nurse.getActive().equals(true)) {
             List<NurseSchedule> schedules = nurse.getNurseSchedules();
@@ -100,12 +116,19 @@ public class NurseServiceImpl implements NurseService {
                         boolean passmatch = nurse.isPasswordMatch(password);
 
                         if (passmatch) {
+<<<<<<< HEAD
                             String token = (tokenDAO.findByUsername(aesUtil.decrypt(loginDto.getEmail())));
                             if (token != null) {
                                 return new LoginResponse("Already logged in", false, null);
                             }
                             String jwttoken = jwtTokenProvider.generateToken(nurse);
                             return new LoginResponse("Login Successful", true, jwttoken);
+=======
+                            System.out.println("password matched");
+
+                           String jwttoken= JwtTokenProvider.generateToken(nurse);
+                            return new LoginResponse("Login Successful",true,jwttoken);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
                         } else {
                             return new LoginResponse("Password not matched", null, null);
                         }
@@ -127,6 +150,7 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Transactional
+<<<<<<< HEAD
     public Nurse changePassword(LoginDTO credentials){
         Nurse nurse = nurseDAO.findByEmail(credentials.getEmail());
         if (nurse.getActive().equals(true)){
@@ -136,6 +160,8 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Transactional
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     public List<NurseSchedule> viewNurseScheduleById(String nurseId)
     {
 
@@ -143,6 +169,7 @@ public class NurseServiceImpl implements NurseService {
         return  nurseSchedules;
     }
 
+<<<<<<< HEAD
     public Nurse getNurseByEmail(String email) {
         return nurseDAO.findByEmail(email);
     }
@@ -151,6 +178,11 @@ public class NurseServiceImpl implements NurseService {
     public Nurse getNurseDetailsByEmail(String email) {
         Nurse nurse= nurseDAO.findDetailsByEmail(email);
         return nurse;
+=======
+    @Transactional
+    public Nurse getNurseDetailsByEmail(String email) {
+        return nurseDAO.findDetailsByEmail(email);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     }
 
     @Transactional
@@ -208,6 +240,16 @@ public class NurseServiceImpl implements NurseService {
 
     @Transactional
     public Vitals viewVitalsById(String patientId,Long vitalid)
+<<<<<<< HEAD
+=======
+    {
+        return vitalsDAO.getVitalsById(patientId,vitalid);
+    }
+
+
+    @Transactional
+    public Vitals viewVitals(String patientId)
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     {
         return vitalsDAO.getVitalsById(patientId,vitalid);
     }
@@ -265,6 +307,16 @@ public class NurseServiceImpl implements NurseService {
     @Transactional
     public Symptoms viewSymptomsById(String patientId,Long symptomid){
         Symptoms symptoms=symptomsDAO.getSymptomsById(patientId,symptomid);
+<<<<<<< HEAD
+=======
+        return symptoms;
+
+    }
+
+    @Transactional
+    public Symptoms viewSymptoms(String patientId){
+        Symptoms symptoms=symptomsDAO.getSymptomsByPatient(patientId);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         return symptoms;
 
     }
@@ -323,6 +375,16 @@ public class NurseServiceImpl implements NurseService {
 
     @Transactional
     public PastHistory viewPastHistoryById(String patientId,Long historyId)
+<<<<<<< HEAD
+=======
+    {
+        PastHistory pastHistory=  pastHistoryDAO.getPastHistoriesById(patientId,historyId);
+        return pastHistory;
+    }
+
+    @Transactional
+    public List<PastHistory> viewPastHistory(String patientId)
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     {
         PastHistory pastHistory=  pastHistoryDAO.getPastHistoriesById(patientId,historyId);
         return pastHistory;
@@ -371,6 +433,7 @@ public class NurseServiceImpl implements NurseService {
             savesymptomImages.setPatient(symptomImages.getPatient());
         return symptomImagesDAO.save(savesymptomImages);
     }
+<<<<<<< HEAD
     @Transactional
     public List<SymptomImages> viewSymptomImages(String patientId,String consenttoken){
 
@@ -385,6 +448,15 @@ public class NurseServiceImpl implements NurseService {
         }
 
     }
+
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
+    @Transactional
+    public SymptomImages viewSymptomImagesById(String patientId,Integer id){
+        SymptomImages symptomImages=symptomImagesDAO.getSymptomImagesById(patientId,id);
+        return symptomImages;
+    }
+
 
     @Transactional
     public SymptomImages viewSymptomImagesById(String patientId,Integer id){
@@ -434,6 +506,13 @@ public class NurseServiceImpl implements NurseService {
             return null;
         }
 
+
+    }
+
+    @Transactional
+    public PastImages viewPastImagesById(Integer historyId,Integer imgId)
+    {
+        return pastImagesDAO.getPastImagesById(historyId,imgId);
 
     }
 
@@ -538,6 +617,16 @@ public class NurseServiceImpl implements NurseService {
 
     @Transactional
     public TestImages viewTestImagesById(Integer id,Long testimageId)
+<<<<<<< HEAD
+=======
+    {
+        return testImagesDAO.findTestImageById(id,testimageId);
+    }
+
+
+    @Transactional
+    public List<TestImages> viewTestImages(Integer id)
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     {
         return testImagesDAO.findTestImageById(id,testimageId);
     }
@@ -631,5 +720,10 @@ public class NurseServiceImpl implements NurseService {
         return nurseDAO.getContactFromEmail(email);
     }
 
+    public Map<String, Boolean> checkVitalsAndSymptoms(String patientId) {
+        boolean vitalsFilled = vitalsDAO.getVitalsByPatient(patientId) != null;
+        boolean symptomsFilled = symptomsDAO.getSymptomsByPatient(patientId) != null;
+        return Map.of("vitalsFilled", vitalsFilled, "symptomsFilled", symptomsFilled);
+    }
 
 }

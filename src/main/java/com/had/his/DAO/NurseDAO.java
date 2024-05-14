@@ -17,10 +17,13 @@ public interface NurseDAO extends JpaRepository<Nurse,Long> {
     @Query("select n from Nurse n where n.email=?1")
     Nurse findDetailsByEmail(String email);
 
+<<<<<<< HEAD
     @Modifying
     @Query("update Nurse n set n.devicetoken=?1 where n.email=?2")
     void updatetoken(String devicetoken,String email);
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     Nurse findByNurseId(String nurseId);
 
     @Query("select n from Nurse n where n.nurseId=?1")

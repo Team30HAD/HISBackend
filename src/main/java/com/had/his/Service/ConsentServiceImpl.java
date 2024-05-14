@@ -7,8 +7,11 @@ import com.had.his.Entity.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
 import java.time.LocalDate;
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 @Service
 public class ConsentServiceImpl implements ConsentService{
 
@@ -21,6 +24,7 @@ public class ConsentServiceImpl implements ConsentService{
 
 
     @Override
+<<<<<<< HEAD
     public Consent createConsent(String pid, String email) {
         Patient patient = patientDAO.findPatientDetailsById(pid);
         Consent consent = new Consent();
@@ -45,12 +49,25 @@ public class ConsentServiceImpl implements ConsentService{
         else{
             return consent;
         }
+=======
+    public Consent createConsent(String pid) {
+        Patient patient = patientDAO.findPatientDetailsById(pid);
+        OtpService.sendOTP(patient.getContact());
+        return null;
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     }
 
     @Override
     public boolean verifyConsent(String pid, String token) {
         Consent consent = consentDAO.getConsentByPatient(pid);
+<<<<<<< HEAD
         return !consent.getExpired() && consent.getToken().equals(token);
+=======
+        if(!consent.getExpired() && consent.getToken().equals(token)){
+            return true;
+        }
+        return false;
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     }
 
 }

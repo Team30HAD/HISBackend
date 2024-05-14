@@ -9,8 +9,11 @@ import java.util.List;
 public interface DoctorService {
 
     LoginResponse verifyDoctor(LoginDTO credentials);
+<<<<<<< HEAD
 
     void logoutService(String email);
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
     Doctor changePassword(LoginDTO credentials);
 
@@ -64,7 +67,13 @@ public interface DoctorService {
 
     String addDisease(String pid,String disease,String email);
 
+<<<<<<< HEAD
     Patient recommendIP(String pid, String did, String email);
+=======
+    String getDisease(String pid);
+
+    Patient recommendIP(String pid, String did);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
     Patient dischargePatient(String pid,String email);
 
@@ -74,13 +83,17 @@ public interface DoctorService {
 
     List<String> getSpecializations();
 
+<<<<<<< HEAD
     String getDisease(String pid,String consenttoken,String email);
 
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     List<Doctor> getDoctorsBySpecialization(String specialization);
 
     Doctor exitDoctor(String email);
 
+<<<<<<< HEAD
     Patient findPatient(String email,String pid,String consenttoken);
 
     String findID(String bid);
@@ -108,4 +121,6 @@ public interface DoctorService {
     String getContactFromEmail(String email);
 
     Boolean verifyOtp(String contact,String otp);
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 }

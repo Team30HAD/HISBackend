@@ -2,6 +2,7 @@ package com.had.his.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+<<<<<<< HEAD
 import com.had.his.Encryption.StringCryptoConverter;
 import com.had.his.Role.UserRole;
 import jakarta.persistence.*;
@@ -9,13 +10,20 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+=======
+import com.had.his.Role.UserRole;
+import jakarta.persistence.*;
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+<<<<<<< HEAD
 import java.security.SecureRandom;
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -68,9 +76,12 @@ public class Nurse implements UserDetails {
     @Column(name="profilephoto", columnDefinition = "MEDIUMTEXT")
     private String photo;
 
+<<<<<<< HEAD
     @Column(name="devicetoken")
     private String devicetoken;
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
@@ -82,7 +93,11 @@ public class Nurse implements UserDetails {
     public Nurse() {
     }
 
+<<<<<<< HEAD
     public Nurse(Long Id,String nurseId, String name, String age, String sex, String contact,Boolean active , String photo, String devicetoken,String password , UserRole role,List<NurseSchedule> nurseSchedules) {
+=======
+    public Nurse(Long Id,String nurseId, String name, int age, String sex, String contact,Boolean active , String photo, String password , UserRole role,List<NurseSchedule> nurseSchedules) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         this.Id = Id;
         this.nurseId = nurseId;
         this.name = name;
@@ -180,6 +195,7 @@ public class Nurse implements UserDetails {
         return email;
     }
 
+<<<<<<< HEAD
     public String getDevicetoken() {
         return devicetoken;
     }
@@ -188,6 +204,8 @@ public class Nurse implements UserDetails {
         this.devicetoken = devicetoken;
     }
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -208,7 +226,11 @@ public class Nurse implements UserDetails {
         return true;
     }
 
+<<<<<<< HEAD
   /*  public void setPassword(String password) {
+=======
+    public void setPassword(String password) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         this.password = passwordEncoder.encode(password);
     }*/
@@ -304,8 +326,12 @@ public class Nurse implements UserDetails {
                 ", active=" + active +
                 ", password='" + password + '\'' +
                 ", photo='" + photo + '\'' +
+<<<<<<< HEAD
                 ", devicetoken='" + devicetoken + '\'' +
                 ", role=" + role +
+=======
+                ", role='" + role + '\'' +
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
                 ", nurseSchedules=" + nurseSchedules +
                 '}';
     }

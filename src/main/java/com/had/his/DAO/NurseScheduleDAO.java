@@ -10,11 +10,16 @@ import java.time.LocalTime;
 import java.util.List;
 
 public interface NurseScheduleDAO extends JpaRepository<NurseSchedule,Integer> {
+<<<<<<< HEAD
 
     @Query("select n from NurseSchedule n where n.nurse.nurseId=?1")
     List<NurseSchedule> getNurseScheduleById(String nurseId);
 
     @Query("SELECT ns FROM NurseSchedule ns WHERE ns.day=?1 AND  ns.start_time <= ?2 AND ns.end_time >= ?2")
     List<NurseSchedule> findActiveSchedules(DayOfWeek day, LocalTime time);
+=======
+    @Query("select n from NurseSchedule n where n.nurse.nurseId=?1")
+    List<NurseSchedule> getNurseScheduleById(String nurseId);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 }
 

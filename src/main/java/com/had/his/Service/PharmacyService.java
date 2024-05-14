@@ -14,8 +14,11 @@ import java.util.Map;
 public interface PharmacyService {
 
     LoginResponse verifyPharmacy(LoginDTO credentials);
+<<<<<<< HEAD
 
     void logoutService(String email);
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
     Pharmacy changePassword(LoginDTO credentials);
 

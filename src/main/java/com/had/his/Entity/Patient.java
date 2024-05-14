@@ -49,6 +49,9 @@ public class Patient {
     @Column(name = "department", nullable = false)
     private String department;
 
+    @Column(name = "checked", nullable = false)
+    private Boolean checked;
+
     @JsonIgnore
     @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
     private List<PastHistory> pastHistories;
@@ -66,6 +69,10 @@ public class Patient {
     private Consent consent;
 
     @JsonIgnore
+    @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL)
+    private Consent consent;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
     private List<SymptomImages> symptomImages;
 
@@ -78,10 +85,18 @@ public class Patient {
     private List<Progress> progress;
 
     @OneToMany(mappedBy = "patient", cascade= CascadeType.ALL)
+<<<<<<< HEAD
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "patient"})
     private List<Visit> visit;
 
     public Patient(Long id, String patientId, String patientName, String age, String sex, String contact, String email, String department, List<PastHistory> pastHistories, Symptoms symptoms, Vitals vitals, Consent consent, List<SymptomImages> symptomImages, Bed bed, List<Progress> progress, List<Visit> visit) {
+=======
+    @JsonIgnore
+    private List<Visit> visit;
+
+
+    public Patient(Long id, String patientId, String patientName, Integer age, String sex, String contact, String email, String department, Boolean checked, List<PastHistory> pastHistories, Symptoms symptoms, Vitals vitals, Consent consent, List<SymptomImages> symptomImages, Bed bed, List<Progress> progress, List<Visit> visit) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         Id = id;
         this.patientId = patientId;
         this.patientName = patientName;
@@ -90,6 +105,7 @@ public class Patient {
         this.contact = contact;
         this.email = email;
         this.department = department;
+        this.checked = checked;
         this.pastHistories = pastHistories;
         this.symptoms = symptoms;
         this.vitals = vitals;
@@ -167,6 +183,17 @@ public class Patient {
         this.department = department;
     }
 
+<<<<<<< HEAD
+=======
+    public Boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Boolean checked) {
+        this.checked = checked;
+    }
+
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     public List<PastHistory> getPastHistories() {
         return pastHistories;
     }
@@ -258,6 +285,7 @@ public class Patient {
                 ", contact='" + contact + '\'' +
                 ", email='" + email + '\'' +
                 ", department='" + department + '\'' +
+                ", checked=" + checked +
                 ", pastHistories=" + pastHistories +
                 ", symptoms=" + symptoms +
                 ", vitals=" + vitals +

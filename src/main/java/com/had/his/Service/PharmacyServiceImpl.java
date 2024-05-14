@@ -32,6 +32,7 @@ public class PharmacyServiceImpl implements PharmacyService {
     private VisitDAO visitDao;
 
     @Autowired
+<<<<<<< HEAD
     private ConsentDAO consentDAO;
 
     @Autowired
@@ -53,11 +54,20 @@ public class PharmacyServiceImpl implements PharmacyService {
     public LoginResponse verifyPharmacy(LoginDTO credentials) {
         String email = aesUtil.decrypt(credentials.getEmail());
         String enteredPassword = aesUtil.decrypt(credentials.getPassword());
+=======
+    private JwtTokenProvider jwtTokenProvider;
+
+
+    public LoginResponse verifyPharmacy(LoginDTO credentials) {
+        String email = credentials.getEmail();
+        String enteredPassword = credentials.getPassword();
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
         Pharmacy pharmacy = pharmacyDao.findByEmail(email);
         if (pharmacy != null && pharmacy.getActive()) {
             if( pharmacy.isPasswordMatch(enteredPassword))
             {
+<<<<<<< HEAD
                 String token = (tokenDAO.findByUsername(aesUtil.decrypt(credentials.getEmail())));
                 if (token != null) {
                     return new LoginResponse("Already logged in", false, null);
@@ -70,6 +80,16 @@ public class PharmacyServiceImpl implements PharmacyService {
         }
         else{
             return new LoginResponse("Invalid User.", null, null);
+=======
+                String jwttoken= jwtTokenProvider.generateToken(pharmacy);
+                return new LoginResponse("Login Successful",true,jwttoken);
+            } else {
+                return new LoginResponse("Password not matched", false, null);
+            }
+        }
+        else{
+            return new LoginResponse("Invalid User.", false, null);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         }
     }
 

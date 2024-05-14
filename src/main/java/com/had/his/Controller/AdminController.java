@@ -32,7 +32,11 @@ public class AdminController {
         }
     }
     @PostMapping("/login")
+<<<<<<< HEAD
     public ResponseEntity<LoginResponse> adminLogin(@Valid @RequestBody LoginDTO credentials) {
+=======
+    public ResponseEntity<LoginResponse> adminLogin(@RequestBody LoginDTO credentials) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             LoginResponse loginResponse = adminService.verifyAdmin(credentials);
             return ResponseEntity.ok(loginResponse);
@@ -43,6 +47,7 @@ public class AdminController {
         }
     }
 
+<<<<<<< HEAD
     @DeleteMapping("/logout/{email}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> logoutService(@PathVariable String email){
@@ -65,6 +70,12 @@ public class AdminController {
     @PreAuthorize("hasRole('ADMIN')")
     private ResponseEntity<Doctor> saveDoctor(@RequestBody Doctor doc, @PathVariable String specialization) {
         try {
+=======
+    @PostMapping("/addDoctor/{specialization}")
+    @PreAuthorize("hasRole('ADMIN')")
+    private ResponseEntity<Doctor> saveDoctor(@RequestBody Doctor doc, @PathVariable String specialization) {
+        try {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
             Doctor newDoctor = adminService.saveDoctor(doc,specialization);
             return ResponseEntity.ok(newDoctor);
         } catch (Exception e) {
@@ -86,7 +97,11 @@ public class AdminController {
 
     @PostMapping("/addNurse")
     @PreAuthorize("hasRole('ADMIN')")
+<<<<<<< HEAD
     private ResponseEntity<Nurse> saveNurse(@Valid @RequestBody Nurse nurse) {
+=======
+    private ResponseEntity<Nurse> saveNurse(@RequestBody Nurse nurse) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Nurse newNurse = adminService.saveNurse(nurse);
             return ResponseEntity.ok(newNurse);
@@ -108,7 +123,11 @@ public class AdminController {
     }
     @PostMapping("/addReceptionist")
     @PreAuthorize("hasRole('ADMIN')")
+<<<<<<< HEAD
     private ResponseEntity<Receptionist> saveReceptionist(@Valid @RequestBody Receptionist rec) {
+=======
+    private ResponseEntity<Receptionist> saveReceptionist(@RequestBody Receptionist rec) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Receptionist newRec = adminService.saveReceptionist(rec);
             return ResponseEntity.ok(newRec);
@@ -130,7 +149,11 @@ public class AdminController {
     }
     @PostMapping("/addPharmacy")
     @PreAuthorize("hasRole('ADMIN')")
+<<<<<<< HEAD
     private ResponseEntity<Pharmacy> saveReceptionist(@Valid @RequestBody Pharmacy pharma) {
+=======
+    private ResponseEntity<Pharmacy> saveReceptionist(@RequestBody Pharmacy pharma) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Pharmacy newPh = adminService.savePharmacy(pharma);
             return ResponseEntity.ok(newPh);
@@ -296,9 +319,15 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+<<<<<<< HEAD
     @PutMapping("/editDoctor/{did}/{specialization}")
     @PreAuthorize("hasRole('ADMIN')")
     private ResponseEntity<Doctor> editDoctor(@PathVariable("did") String did,@RequestBody Doctor doctor, @PathVariable String specialization){
+=======
+    @PostMapping("/editDoctor/{did}")
+    @PreAuthorize("hasRole('ADMIN')")
+    private ResponseEntity<Doctor> editDoctor(@PathVariable("did") String did,@RequestBody Doctor doctor){
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Doctor newDoctor = adminService.editDoctor(did,doctor,specialization);
             return ResponseEntity.ok(newDoctor);
@@ -310,7 +339,11 @@ public class AdminController {
 
     @PutMapping("/editNurse/{nid}")
     @PreAuthorize("hasRole('ADMIN')")
+<<<<<<< HEAD
     private ResponseEntity<Nurse> editNurse(@PathVariable("nid") String nid,@Valid @RequestBody Nurse nurse){
+=======
+    private ResponseEntity<Nurse> editNurse(@PathVariable("nid") String nid,@RequestBody Nurse nurse){
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Nurse newNurse = adminService.editNurse(nid,nurse);
             return ResponseEntity.ok(newNurse);
@@ -322,7 +355,11 @@ public class AdminController {
 
     @PutMapping("/editPharmacy/{phid}")
     @PreAuthorize("hasRole('ADMIN')")
+<<<<<<< HEAD
     private ResponseEntity<Pharmacy> editPharmacy(@PathVariable("phid") String phid,@Valid @RequestBody Pharmacy pharma){
+=======
+    private ResponseEntity<Pharmacy> editPharmacy(@PathVariable("phid") String phid,@RequestBody Pharmacy pharma){
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Pharmacy newPharma = adminService.editPharmacy(phid,pharma);
             return ResponseEntity.ok(newPharma);
@@ -334,7 +371,11 @@ public class AdminController {
 
     @PutMapping("/editReceptionist/{rid}")
     @PreAuthorize("hasRole('ADMIN')")
+<<<<<<< HEAD
     private ResponseEntity<Receptionist> editReceptionist(@PathVariable("rid") String rid,@Valid @RequestBody Receptionist recep){
+=======
+    private ResponseEntity<Receptionist> editReceptionist(@PathVariable("rid") String rid,@RequestBody Receptionist recep){
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Receptionist newReceptionist = adminService.editReceptionist(rid,recep);
             return ResponseEntity.ok(newReceptionist);
@@ -359,7 +400,11 @@ public class AdminController {
 
     @PostMapping("/addSpecialization")
     @PreAuthorize("hasRole('ADMIN')")
+<<<<<<< HEAD
     private ResponseEntity<Specialization> addSpecialization(@Valid @RequestBody Specialization spec){
+=======
+    private ResponseEntity<Specialization> addSpecialization(@RequestBody Specialization spec){
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try{
             Specialization specialization = adminService.addSpecialization(spec);
             return ResponseEntity.ok(specialization);
@@ -370,6 +415,7 @@ public class AdminController {
     }
 
     @GetMapping("/viewSpecializations")
+<<<<<<< HEAD
     @PreAuthorize("hasRole('ADMIN')")
     private ResponseEntity<List<String>> viewSpecializations(){
         List<String> specializations=adminService.viewSpecializations();
@@ -421,6 +467,16 @@ public class AdminController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+=======
+    @PreAuthorize(("hasRole('ADMIN')"))
+    private ResponseEntity<List<String>> getSpecialization(){
+        try{
+            List<String> specialization= adminService.viewSpecializations();
+            return ResponseEntity.ok(specialization);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         }
     }
 

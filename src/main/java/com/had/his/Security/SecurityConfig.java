@@ -1,11 +1,17 @@
 package com.had.his.Security;
 
 import com.had.his.UserDetailsService.*;
+<<<<<<< HEAD
 import jakarta.servlet.http.HttpSession;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+=======
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.SecurityMarker;
@@ -13,8 +19,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+<<<<<<< HEAD
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -24,12 +33,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+<<<<<<< HEAD
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.session.SessionInformationExpiredEvent;
 import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 
 import java.io.IOException;
+=======
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
 
 @Configuration
@@ -55,8 +68,11 @@ public class SecurityConfig {
     private ReceptionistJwtAuthenticationFilter receptionistJwtAuthenticationFilter;
     private ReceptionistDetailsService receptionistDetailsService;
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     public SecurityConfig(NurseDetailsService nurseDetailsService, NursejwtAuthenticationFilter nursejwtAuthenticationFilter, DoctorjwtAuthenticationFilter doctorjwtAuthenticationFilter, DoctorDetailsService doctorDetailsService, PharmacyDetailsService pharmacyDetailsService, PharmacyJwtAuthenticationFilter pharmacyJwtAuthenticationFilter, AdminJwtAuthenticationFilter adminJwtAuthenticationFilter, AdminDetailsService adminDetailsService, ReceptionistJwtAuthenticationFilter receptionistJwtAuthenticationFilter, ReceptionistDetailsService receptionistDetailsService) {
         this.nurseDetailsService = nurseDetailsService;
         this.nursejwtAuthenticationFilter = nursejwtAuthenticationFilter;
@@ -70,8 +86,11 @@ public class SecurityConfig {
         this.receptionistDetailsService = receptionistDetailsService;
     }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     @Bean
     @Order(1)
     public SecurityFilterChain nursesecurityFilterChain(HttpSecurity http) throws Exception {
@@ -80,17 +99,24 @@ public class SecurityConfig {
                 .securityMatcher("/nurse/**")
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/nurse/login").permitAll()
+<<<<<<< HEAD
                         .requestMatchers("/nurse/save-token/**").permitAll()
                         .requestMatchers("/nurse/sendOtpforpassword/**").permitAll()
                         .requestMatchers("/nurse/verifyOtpforpassword/**").permitAll()
                         .requestMatchers("/nurse/getContactFromEmail/**").permitAll()
                         .requestMatchers("/nurse/passwordChange").permitAll()
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/nurse/**").hasAuthority("NURSE")
                         .anyRequest().authenticated()
                 ).userDetailsService(nurseDetailsService)
+<<<<<<< HEAD
                 .sessionManagement(ses -> ses
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+=======
+                .sessionManagement(ses->ses.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
                 .addFilterBefore(nursejwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
 
@@ -106,10 +132,13 @@ public class SecurityConfig {
                 .securityMatcher("/doctor/**")
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/doctor/login").permitAll()
+<<<<<<< HEAD
                         .requestMatchers("/doctor/passwordChange").permitAll()
                         .requestMatchers("/doctor/sendOtpforpassword/**").permitAll()
                         .requestMatchers("/doctor/verifyOtpforpassword/**").permitAll()
                         .requestMatchers("/doctor/getContactFromEmail/**").permitAll()
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/doctor/**").hasAuthority("DOCTOR")
                         .anyRequest().authenticated()
@@ -131,10 +160,13 @@ public class SecurityConfig {
                 .securityMatcher("/pharmacy/**")
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/pharmacy/login").permitAll()
+<<<<<<< HEAD
                         .requestMatchers("/pharmacy/passwordChange").permitAll()
                         .requestMatchers("/pharmacy/sendOtpforpassword/**").permitAll()
                         .requestMatchers("/pharmacy/verifyOtpforpassword/**").permitAll()
                         .requestMatchers("/pharmacy/getContactFromEmail/**").permitAll()
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/pharmacy/**").hasAuthority("PHARMACY")
                         .anyRequest().authenticated()
@@ -155,7 +187,10 @@ public class SecurityConfig {
                 .securityMatcher("/admin/**")
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/admin/login").permitAll()
+<<<<<<< HEAD
                         .requestMatchers("/admin/passwordChange").permitAll()
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
                         .requestMatchers("/admin/addAdmin").permitAll()
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
@@ -178,11 +213,15 @@ public class SecurityConfig {
                 .securityMatcher("/receptionist/**")
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/receptionist/login").permitAll()
+<<<<<<< HEAD
                         .requestMatchers("/receptionist/passwordChange").permitAll()
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/receptionist/sendOtpforpassword/**").permitAll()
                         .requestMatchers("/receptionist/verifyOtpforpassword/**").permitAll()
                         .requestMatchers("/receptionist/getContactFromEmail/**").permitAll()
+=======
+                        .requestMatchers("/error").permitAll()
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
                         .requestMatchers("/receptionist/**").hasAuthority("RECEPTIONIST")
                         .anyRequest().authenticated()
                 ).userDetailsService(receptionistDetailsService)
@@ -214,6 +253,7 @@ public class SecurityConfig {
         }
     }
 
+<<<<<<< HEAD
     @Bean
     public SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();
@@ -243,3 +283,8 @@ public class SecurityConfig {
 
 
 
+=======
+
+}
+
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2

@@ -15,7 +15,10 @@ public interface PastImagesDAO extends JpaRepository<PastImages,Integer> {
 
     @Query("select pi from PastImages pi where pi.pastHistory.historyId = ?1 and pi.imgId=?2")
     PastImages getPastImagesById(Integer phid,Integer imgId);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     @Modifying
     @Query("delete from PastImages p where p.imgId=?1")
     void deleteByPastImgId(Integer imgId);

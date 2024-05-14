@@ -37,12 +37,15 @@ public class Visit {
     @Column(name="disease")
     private String disease;
 
+<<<<<<< HEAD
     @Column(name = "checked", nullable = false)
     private Boolean checked;
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     @ManyToOne
     @JoinColumn(name = "did", nullable = false,referencedColumnName = "doctor_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "visits"})
+    @JsonIgnore
     private Doctor doctor;
 
     @JsonIgnore
@@ -59,7 +62,7 @@ public class Visit {
 
     @ManyToOne
     @JoinColumn(name = "pid", nullable = false,referencedColumnName = "patient_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "visits"})
+    @JsonIgnore
     private Patient patient;
 
     public Visit() {

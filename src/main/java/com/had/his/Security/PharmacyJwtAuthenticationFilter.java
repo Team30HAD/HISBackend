@@ -1,11 +1,17 @@
 package com.had.his.Security;
+<<<<<<< HEAD
 import com.had.his.DAO.TokenDAO;
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 import com.had.his.UserDetailsService.PharmacyDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Autowired;
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,9 +29,12 @@ public class PharmacyJwtAuthenticationFilter extends OncePerRequestFilter {
     private JwtTokenProvider jwtTokenProvider;
     private PharmacyDetailsService serviceDetails;
 
+<<<<<<< HEAD
     @Autowired
     private TokenDAO tokenDAO;
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     public PharmacyJwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider, PharmacyDetailsService serviceDetails) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.serviceDetails = serviceDetails;
@@ -47,6 +56,7 @@ public class PharmacyJwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (user != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = serviceDetails.loadUserByUsername(user);
+<<<<<<< HEAD
             String expecteduser=tokenDAO.findUserByToken(token);
 
             if (userDetails != null && jwtTokenProvider.validateToken(token, userDetails)&& (expecteduser.equals(user)) ) {
@@ -61,6 +71,10 @@ public class PharmacyJwtAuthenticationFilter extends OncePerRequestFilter {
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "IP address mismatch");
                     return;
                 }
+=======
+
+            if (userDetails != null && jwtTokenProvider.validateToken(token, userDetails)) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
                 UsernamePasswordAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -73,6 +87,7 @@ public class PharmacyJwtAuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+<<<<<<< HEAD
     private String getClientIpAddress(HttpServletRequest request) {
         String ipAddress = request.getHeader("X-Forwarded-For");
         if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
@@ -107,5 +122,7 @@ public class PharmacyJwtAuthenticationFilter extends OncePerRequestFilter {
         }
         return ipAddress;
     }
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 }
 

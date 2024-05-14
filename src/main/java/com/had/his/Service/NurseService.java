@@ -11,6 +11,7 @@ public interface NurseService {
 
     LoginResponse NurseLogin(LoginDTO loginDTO);
 
+<<<<<<< HEAD
     void logoutService(String email);
 
     Nurse changePassword(LoginDTO loginDTO);
@@ -21,6 +22,11 @@ public interface NurseService {
 
     List<NurseSchedule> viewNurseScheduleById(String nurseId);
 
+=======
+    Nurse getNurseDetailsByEmail(String email);
+
+    List<NurseSchedule> viewNurseScheduleById(String nurseId);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     List<Patient> getEmergencyPatients();
 
     List<Patient> getAllPatients();
@@ -35,6 +41,8 @@ public interface NurseService {
 
     Vitals viewVitalsById(String patientId,Long vitalid);
 
+    Vitals viewVitalsById(String patientId,Long vitalid);
+
     void deleteVitals(Long vitalid);
 
     Symptoms addSymptoms(String patientId, Symptoms symptoms);
@@ -45,14 +53,20 @@ public interface NurseService {
 
     Symptoms viewSymptomsById(String patientId,Long symptomid);
 
+    Symptoms viewSymptomsById(String patientId,Long symptomid);
+
     void deleteSymptoms(Long symptomid);
 
     PastHistory addPastHistory(String patientId, PastHistory pastHistory);
 
     PastHistory editPastHistory(Long historyid,PastHistory pastHistory);
 
+<<<<<<< HEAD
     List<PastHistory> viewPastHistory(String patientId,String consenttoken);
 
+=======
+    List<PastHistory> viewPastHistory(String patientId);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     PastHistory viewPastHistoryById(String patientId,Long historyId);
 
     void deletePastHistory(Long historyid);
@@ -64,6 +78,10 @@ public interface NurseService {
     List<SymptomImages> viewSymptomImages(String patientId,String consenttoken);
 
     SymptomImages viewSymptomImagesById(String patientId,Integer id);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
     void deleteSymptomImages(Integer id);
 
@@ -72,6 +90,8 @@ public interface NurseService {
     PastImages editPastImages(Integer imgId,PastImages pastImages);
 
     List<PastImages> viewPastImages(Integer historyId,String patientId, String consenttoken);
+
+    PastImages viewPastImagesById(Integer historyId,Integer imgId);
 
     PastImages viewPastImagesById(Integer historyId,Integer imgId);
 
@@ -95,10 +115,14 @@ public interface NurseService {
 
     TestImages viewTestImagesById(Integer id,Long testimageid);
 
+    TestImages viewTestImagesById(Integer id,Long testimageid);
+
+
     void deleteTestImages(Long testimageId);
 
     Test viewTestById(String patientId,Integer id);
 
+<<<<<<< HEAD
     Map<String, Boolean> checkVitalsAndSymptoms(String patientId,String consenttoken);
 
     String getConsentToken(String pid);
@@ -116,5 +140,9 @@ public interface NurseService {
     String getContactFromEmail(String email);
 
     Boolean verifyOtp(String contact,String otp);
+=======
+    Map<String, Boolean> checkVitalsAndSymptoms(String patientId);
+
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
 }

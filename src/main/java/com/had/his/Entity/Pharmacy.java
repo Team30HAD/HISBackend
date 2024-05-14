@@ -1,5 +1,6 @@
 package com.had.his.Entity;
 
+<<<<<<< HEAD
 import com.had.his.Encryption.StringCryptoConverter;
 import com.had.his.Role.UserRole;
 import jakarta.persistence.*;
@@ -7,13 +8,20 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import org.checkerframework.checker.units.qual.N;
+=======
+import com.had.his.Role.UserRole;
+import jakarta.persistence.*;
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+<<<<<<< HEAD
 import java.security.SecureRandom;
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 import java.util.Collection;
 import java.util.Collections;
 
@@ -43,9 +51,12 @@ public class Pharmacy implements UserDetails {
     @Convert(converter = StringCryptoConverter.class)
     @Column(name="email",unique = true,nullable = false)
     private String email;
+<<<<<<< HEAD
 
     @NotEmpty(message = "Please enter contact details")
     @Convert(converter = StringCryptoConverter.class)
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     @Column(name="contact",nullable = false,unique = true)
     private String contact;
 
@@ -145,6 +156,7 @@ public class Pharmacy implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+<<<<<<< HEAD
     }
 
     @Override
@@ -197,6 +209,41 @@ public class Pharmacy implements UserDetails {
         // You can use another encryption algorithm here if needed
         // For demonstration, let's just return the concatenated string
         return passwordWithSalt;
+=======
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public void setPassword(String password) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.password = passwordEncoder.encode(password);
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     }
 
     public boolean isPasswordMatch(String enteredPassword) {
@@ -204,6 +251,7 @@ public class Pharmacy implements UserDetails {
         return passwordEncoder.matches(enteredPassword, this.password);
     }
 
+<<<<<<< HEAD
     public UserRole getRole() {
         return role;
     }
@@ -217,6 +265,8 @@ public class Pharmacy implements UserDetails {
         return passwordEncoder.matches(enteredPassword, this.password);
     }*/
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     public void generateEmail() {
         if (this.name != null && !this.name.trim().isEmpty() && this.pharmacyId != null) {
             this.email = this.name.trim().toLowerCase().replaceAll("\\s+", "") +  this.pharmacyId.trim().toLowerCase().replaceAll("\\s+", "")  + "@his.com";

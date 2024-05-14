@@ -1,13 +1,19 @@
 package com.had.his.Security;
 
+<<<<<<< HEAD
 import com.had.his.DAO.TokenDAO;
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 import com.had.his.Security.JwtTokenProvider;
 import com.had.his.UserDetailsService.DoctorDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Autowired;
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,9 +30,12 @@ public class DoctorjwtAuthenticationFilter extends OncePerRequestFilter {
     private JwtTokenProvider jwtTokenProvider;
     private DoctorDetailsService serviceDetails;
 
+<<<<<<< HEAD
     @Autowired
     private TokenDAO tokenDAO;
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     public DoctorjwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider, DoctorDetailsService serviceDetails) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.serviceDetails = serviceDetails;
@@ -48,6 +57,7 @@ public class DoctorjwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (user != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = serviceDetails.loadUserByUsername(user);
+<<<<<<< HEAD
             String expecteduser=tokenDAO.findUserByToken(token);
 
 
@@ -64,6 +74,10 @@ public class DoctorjwtAuthenticationFilter extends OncePerRequestFilter {
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Already Logged In other device");
                     return;
                 }
+=======
+
+            if (userDetails != null && jwtTokenProvider.validateToken(token, userDetails)) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
                 UsernamePasswordAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -76,6 +90,7 @@ public class DoctorjwtAuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+<<<<<<< HEAD
     private String getClientIpAddress(HttpServletRequest request) {
         String ipAddress = request.getHeader("X-Forwarded-For");
         if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
@@ -110,5 +125,7 @@ public class DoctorjwtAuthenticationFilter extends OncePerRequestFilter {
         }
         return ipAddress;
     }
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 }
 

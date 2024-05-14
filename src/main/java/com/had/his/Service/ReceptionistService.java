@@ -10,11 +10,18 @@ import java.util.List;
 
 public interface ReceptionistService {
 
+<<<<<<< HEAD
     LoginResponse verifyReceptionist(LoginDTO loginDTO);
 
     void logoutService(String email);
 
     Patient getPatientDetails(String pid,String consenttoken);
+=======
+    Receptionist getReceptionistDetailsByEmail(String email);
+    LoginResponse verifyReceptionist(LoginDTO loginDTO);
+
+    Patient getPatientDetails(String pid);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
     List<Patient> getAllPatients();
 
@@ -42,6 +49,7 @@ public interface ReceptionistService {
 
     List<String> getSpecialization();
     List<ReceptionistSchedule> viewReceptionistScheduleById(String receptionistId);
+<<<<<<< HEAD
 
     String sendOtp(String contact);
 
@@ -63,3 +71,6 @@ public interface ReceptionistService {
 
     Boolean verifyOtpPass(String contact, String otp);
 }
+=======
+}
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2

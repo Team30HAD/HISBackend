@@ -31,7 +31,11 @@ public class PharmacyController {
 
 
     @PostMapping("/login")
+<<<<<<< HEAD
     public ResponseEntity<LoginResponse> pharmacyLogin(@Valid @RequestBody LoginDTO credentials) {
+=======
+    public ResponseEntity<LoginResponse> pharmacyLogin(@RequestBody LoginDTO credentials) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             LoginResponse loginResponse = pharmacyService.verifyPharmacy(credentials);
             return ResponseEntity.ok(loginResponse);
@@ -51,7 +55,11 @@ public class PharmacyController {
 
     @PostMapping("/passwordChange")
     @PreAuthorize("hasRole('PHARMACY')")
+<<<<<<< HEAD
     public ResponseEntity<Pharmacy> changePharmacyPassword(@RequestBody LoginDTO credentials) {
+=======
+    public ResponseEntity<Pharmacy> changeDoctorPassword(@RequestBody LoginDTO credentials) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Pharmacy newPharmacy = pharmacyService.changePassword(credentials);
             return ResponseEntity.ok(newPharmacy);
@@ -82,9 +90,15 @@ public class PharmacyController {
 
     }
 
+<<<<<<< HEAD
     @GetMapping("/viewMedication/{patientId}/{consenttoken}")
     @PreAuthorize("hasRole('PHARMACY')")
     public ResponseEntity<List<Medication>> viewMedication(@PathVariable String patientId,@PathVariable String consenttoken)
+=======
+    @GetMapping("/viewMedication/{patientId}")
+    @PreAuthorize("hasRole('PHARMACY')")
+    public ResponseEntity<List<Medication>> viewMedication(@PathVariable String patientId)
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     {
         List<Medication> medications= pharmacyService.viewMedication(patientId,consenttoken);
         if(medications == null)

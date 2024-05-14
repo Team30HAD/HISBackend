@@ -2,8 +2,11 @@ package com.had.his.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+<<<<<<< HEAD
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -22,12 +25,19 @@ public class Consent {
 
     private Boolean expired;
 
+<<<<<<< HEAD
     @NotEmpty(message = "Receptionist Email must be provided")
     @NotNull(message = "Receptionist Email must be provided")
     @Column(name = "consent_taken_by",nullable = false)
     private String takenBy;
 
     @Column(name = "consent_taken_on",nullable = false)
+=======
+    @Column(name = "consent_taken_by")
+    private String takenBy;
+
+    @Column(name = "consent_taken_on")
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     private LocalDate takenOn;
 
     @JsonIgnore

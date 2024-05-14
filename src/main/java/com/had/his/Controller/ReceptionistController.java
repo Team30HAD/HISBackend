@@ -25,7 +25,11 @@ public class ReceptionistController {
     private ReceptionistService receptionistService;
 
     @PostMapping("/login")
+<<<<<<< HEAD
     public ResponseEntity<LoginResponse> verifyReceptionist(@Valid @RequestBody LoginDTO loginDto)
+=======
+    public ResponseEntity<LoginResponse> verifyReceptionist(@RequestBody LoginDTO loginDto)
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     {
         try {
             LoginResponse loginResponse = receptionistService.verifyReceptionist(loginDto);
@@ -37,6 +41,7 @@ public class ReceptionistController {
         }
     }
 
+<<<<<<< HEAD
     @DeleteMapping("/logout/{email}")
     @PreAuthorize("hasRole('RECEPTIONIST')")
     public ResponseEntity<String> logoutService(@PathVariable String email){
@@ -55,6 +60,8 @@ public class ReceptionistController {
         }
     }
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
     @PostMapping("/bookAppointmentForExistingPatient/{email}/{pid}")
     @PreAuthorize("hasRole('RECEPTIONIST')")
@@ -83,9 +90,15 @@ public class ReceptionistController {
     }
 
 
+<<<<<<< HEAD
     @GetMapping("/getPatientDetails/{pid}/{consenttoken}")
     @PreAuthorize("hasRole('RECEPTIONIST')")
     private ResponseEntity<Patient> getPatientDetails(@PathVariable("pid") String pid,@PathVariable String consenttoken) {
+=======
+    @GetMapping("/getPatientDetails/{pid}")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
+    private ResponseEntity<Patient> getPatientDetails(@PathVariable("pid") String pid) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Patient patient = receptionistService.getPatientDetails(pid,consenttoken);
             if (patient != null) {
@@ -102,7 +115,11 @@ public class ReceptionistController {
 
     @PutMapping("/updatePatient/{pid}")
     @PreAuthorize("hasRole('RECEPTIONIST')")
+<<<<<<< HEAD
     private ResponseEntity<Patient> updatePatient(@PathVariable("pid") String pid,@Valid @RequestBody Patient updatedPatient) {
+=======
+    private ResponseEntity<Patient> updatePatient(@PathVariable("pid") String pid, @RequestBody Patient updatedPatient) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         try {
             Patient newPatient = receptionistService.updatePatient(pid, updatedPatient);
             return ResponseEntity.ok(newPatient);
@@ -298,6 +315,10 @@ public class ReceptionistController {
                     .body("An error occurred while fetching specializations: " + e.getMessage());
         }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     @GetMapping("/viewReceptionistScheduleById/{receptionistId}")
     @PreAuthorize("hasRole('RECEPTIONIST')")
     public ResponseEntity<List<ReceptionistSchedule>> viewReceptionistScheduleById(@PathVariable String receptionistId) {
@@ -312,6 +333,7 @@ public class ReceptionistController {
         return new ResponseEntity<>(receptionistDto, HttpStatus.OK);
     }
 
+<<<<<<< HEAD
     @PostMapping("/sendOtp/{contact}")
     @PreAuthorize("hasRole('RECEPTIONIST')")
     public ResponseEntity<String> sendOtp(@PathVariable String contact) {
@@ -411,5 +433,7 @@ public class ReceptionistController {
         return new ResponseEntity<>(contact,HttpStatus.OK);
     }
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
 }

@@ -1,5 +1,6 @@
 package com.had.his.DTO;
 
+<<<<<<< HEAD
 import jakarta.validation.constraints.NotEmpty;
 import org.checkerframework.checker.units.qual.N;
 
@@ -15,6 +16,16 @@ public class AppointmentDTO {
     private String sex;
 
 
+=======
+public class AppointmentDTO {
+
+    private String name;
+
+    private Integer age;
+
+    private String sex;
+
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     private String contact;
 
     private String email;
@@ -30,7 +41,11 @@ public class AppointmentDTO {
     public AppointmentDTO() {
     }
 
+<<<<<<< HEAD
     public AppointmentDTO(String name, String age, String sex, String contact, String email, String category, Boolean emergency, String doctorId, Boolean consent) {
+=======
+    public AppointmentDTO(String name, Integer age, String sex, String contact, String email, String category, Boolean emergency, String doctorId, Boolean consent) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         this.name = name;
         this.age = age;
         this.sex = sex;
@@ -50,11 +65,19 @@ public class AppointmentDTO {
         this.name = name;
     }
 
+<<<<<<< HEAD
     public String getAge() {
         return age;
     }
 
     public void setAge(String age) {
+=======
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         this.age = age;
     }
 

@@ -1,6 +1,7 @@
 package com.had.his.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+<<<<<<< HEAD
 import com.had.his.Encryption.StringCryptoConverter;
 import com.had.his.Role.UserRole;
 import jakarta.persistence.*;
@@ -8,13 +9,20 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+=======
+import com.had.his.Role.UserRole;
+import jakarta.persistence.*;
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+<<<<<<< HEAD
 import java.security.SecureRandom;
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -176,7 +184,11 @@ public class Receptionist implements UserDetails {
         return true;
     }
 
+<<<<<<< HEAD
    /* public void setPassword(String password) {
+=======
+    public void setPassword(String password) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         this.password = passwordEncoder.encode(password);
     }*/
@@ -225,18 +237,33 @@ public class Receptionist implements UserDetails {
 
     public UserRole getRole() {
         return role;
+<<<<<<< HEAD
+=======
     }
 
     public void setRole(UserRole role) {
         this.role = role;
     }
 
+    public boolean isPasswordMatch(String enteredPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.matches(enteredPassword, this.password);
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
+<<<<<<< HEAD
     /*public boolean isPasswordMatch(String enteredPassword) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(enteredPassword, this.password);
     }*/
 
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     public void generateEmail() {
         if (this.name != null && !this.name.trim().isEmpty() && this.receptionistId != null) {
             this.email = this.name.trim().toLowerCase().replaceAll("\\s+", "") +  this.receptionistId.trim().toLowerCase().replaceAll("\\s+", "")  + "@his.com";
@@ -265,7 +292,11 @@ public class Receptionist implements UserDetails {
 
 
 
+<<<<<<< HEAD
     public Receptionist(Long id, String receptionistId, String name, String age, String sex, String email, String contact, Boolean active, String password, String photo, UserRole role, List<ReceptionistSchedule> receptionistSchedules) {
+=======
+    public Receptionist(Long id, String receptionistId, String name, Integer age, String sex, String email, String contact, Boolean active, String password, String photo, UserRole role, List<ReceptionistSchedule> receptionistSchedules) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         Id = id;
         this.receptionistId = receptionistId;
         this.name = name;

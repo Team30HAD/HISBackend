@@ -36,6 +36,7 @@ public class AdminServiceImpl implements AdminService {
     private HospitalDAO hospitalDAO;
     @Autowired
     private SpecializationDAO specializationDAO;
+<<<<<<< HEAD
     @Autowired
     private ReceptionistScheduleDAO receptionistScheduleDAO;
 
@@ -44,6 +45,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private AESUtil aesUtil;
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
     private static int adminCounter=0;
 
@@ -63,6 +66,7 @@ public class AdminServiceImpl implements AdminService {
         admin.setRole(UserRole.ADMIN);
         return adminDAO.save(admin);
     }
+<<<<<<< HEAD
 
     @Transactional
     public Admin changePassword(LoginDTO credentials){
@@ -118,6 +122,28 @@ public class AdminServiceImpl implements AdminService {
         if(!doc.getContact().matches(regcon)||doc.getContact().length()<10 || doc.getContact().length()>10){
             throw new IllegalArgumentException("Contact Number should be positive and between 8 to 10 numbers");
         }
+=======
+    public LoginResponse verifyAdmin(LoginDTO credentials) {
+        String email = credentials.getEmail();
+        String enteredPassword = credentials.getPassword();
+
+        Admin admin = adminDAO.findAdminByEmail(email);
+        if (admin != null) {
+            if( admin.isPasswordMatch(enteredPassword))
+            {
+                String jwttoken= jwtTokenProvider.generateToken(admin);
+                return new LoginResponse("Login Successful",true,jwttoken);
+            } else {
+                return new LoginResponse("Password not matched", false, null);
+            }
+        }
+        else{
+            return new LoginResponse("Invalid User.", false, null);
+        }
+    }
+
+    public Doctor saveDoctor(Doctor doc,String specialization) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         Specialization spec = specializationDAO.getSpecializationByName(specialization);
         doc.setSpecialization(spec);
         doc.setActive(true);
@@ -131,6 +157,7 @@ public class AdminServiceImpl implements AdminService {
 
 
     public Nurse saveNurse(Nurse nurse) {
+<<<<<<< HEAD
         if(nurse.getName().length()<2 || nurse.getName().length()>30){
             throw new IllegalArgumentException("Invalid Name Input");
         }
@@ -142,6 +169,8 @@ public class AdminServiceImpl implements AdminService {
         if(!nurse.getContact().matches(regcon)||nurse.getContact().length()<10|| nurse.getContact().length()>10){
             throw new IllegalArgumentException("Contact Number should be positive and between 8 to 10 numbers");
         }
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
         nurse.setActive(true);
         nurse.setRole(UserRole.NURSE);
@@ -152,6 +181,10 @@ public class AdminServiceImpl implements AdminService {
         for (NurseSchedule schedule : nurse.getNurseSchedules()) {
             schedule.setNurse(nurse);
         }
+<<<<<<< HEAD
+=======
+        // Save nurse entity along with nurse schedules (cascade)
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         return nurseDAO.save(nurse);
 
 
@@ -173,10 +206,13 @@ public class AdminServiceImpl implements AdminService {
         if(rec.getPassword()==null){
             rec.setPassword("recpwd");
         }
+<<<<<<< HEAD
         for (ReceptionistSchedule schedule : rec.getReceptionistSchedules()) {
             schedule.setReceptionist(rec);
         }
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         System.out.println(rec.getPhoto());
         return receptionistDAO.save(rec);
     }
@@ -264,6 +300,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public long countReceptionist()
     {
+<<<<<<< HEAD
         return receptionistDAO.countReceptionistByActive();
     }
 
@@ -277,6 +314,17 @@ public class AdminServiceImpl implements AdminService {
 
 
     public Doctor editDoctor(String did,Doctor doctor,String specialization){
+=======
+        return receptionistDAO.count();
+    }
+
+    public long countPharmacy()
+    {
+        return pharmacyDAO.count();
+    }
+
+    public Doctor editDoctor(String did,Doctor doctor){
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         Doctor newDoctor = doctorDAO.findByDoctorId(did);
         newDoctor.setName(doctor.getName());
         if(newDoctor.getName()!=doctor.getName())
@@ -348,6 +396,7 @@ public class AdminServiceImpl implements AdminService {
         newRecep.setContact(receptionist.getContact());
         // newRecep.setEmail(receptionist.getEmail());
         newRecep.setAge(receptionist.getAge());
+<<<<<<< HEAD
         List<ReceptionistSchedule> existingSchedules=receptionistScheduleDAO.getReceptionistScheduleById(newRecep.getReceptionistId());
         receptionistScheduleDAO.deleteAll(existingSchedules);
         List<ReceptionistSchedule> receptionistSchedules=receptionist.getReceptionistSchedules();
@@ -355,6 +404,8 @@ public class AdminServiceImpl implements AdminService {
             schedule.setReceptionist(newRecep);
         }
         newRecep.setReceptionistSchedules(receptionistSchedules);
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
         return receptionistDAO.save(newRecep);
     }
@@ -368,10 +419,15 @@ public class AdminServiceImpl implements AdminService {
     public Specialization addSpecialization(Specialization specialization) {
         return specializationDAO.save(specialization);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     public List<String> viewSpecializations()
     {
         return specializationDAO.findALLSpecializations();
     }
+<<<<<<< HEAD
 
 
     @Override
@@ -414,6 +470,8 @@ public class AdminServiceImpl implements AdminService {
         specialization.setSpecializationName(updatedSpecializationName);
         return specializationDAO.save(specialization);
     }
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
 }
 

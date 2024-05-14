@@ -29,6 +29,7 @@ public interface DoctorDAO extends JpaRepository<Doctor,Long> {
      @Query("select d from Doctor d where d.availability=true and d.active=true and d.department = 'OP' and d.specialization.specializationName=?1")
      List<Doctor> getOutdoorDoctorsBySpecialization(String specialization);
 
+<<<<<<< HEAD
 //     @Query("SELECT d.specialization.specializationName, " +
 //             "SUM(CASE WHEN d.department = 'OP' THEN 1 ELSE 0 END), " +
 //             "SUM(CASE WHEN d.department = 'IP' THEN 1 ELSE 0 END) " +
@@ -51,5 +52,7 @@ public interface DoctorDAO extends JpaRepository<Doctor,Long> {
 
      @Query("select d.contact from Doctor d where d.email=?1")
      String getContactFromEmail(String email);
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
 }

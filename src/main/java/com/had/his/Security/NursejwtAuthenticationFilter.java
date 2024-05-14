@@ -1,15 +1,21 @@
 package com.had.his.Security;
 
 
+<<<<<<< HEAD
 import com.had.his.DAO.TokenDAO;
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 import com.had.his.UserDetailsService.NurseDetailsService;
 import com.had.his.UserDetailsService.ServiceDetails;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+<<<<<<< HEAD
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +31,7 @@ public class NursejwtAuthenticationFilter extends OncePerRequestFilter {
 
     private JwtTokenProvider jwtTokenProvider;
     private NurseDetailsService serviceDetails;
+<<<<<<< HEAD
     private HttpSession httpSession;
     @Autowired
     private TokenDAO tokenDAO;
@@ -33,13 +40,22 @@ public class NursejwtAuthenticationFilter extends OncePerRequestFilter {
         this.jwtTokenProvider = jwtTokenProvider;
         this.serviceDetails = serviceDetails;
         this.httpSession = httpSession;
+=======
+
+    public NursejwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider, NurseDetailsService serviceDetails) {
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.serviceDetails = serviceDetails;
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
         String token;
         String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -50,6 +66,7 @@ public class NursejwtAuthenticationFilter extends OncePerRequestFilter {
         token = authHeader.substring(7);
         String user = jwtTokenProvider.getuserfromtoken(token);
 
+<<<<<<< HEAD
 
         if (user != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
@@ -70,18 +87,29 @@ public class NursejwtAuthenticationFilter extends OncePerRequestFilter {
                     return;
                 }
 
+=======
+        if (user != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = serviceDetails.loadUserByUsername(user);
+
+            if (userDetails != null && jwtTokenProvider.validateToken(token, userDetails)) {
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
                 UsernamePasswordAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             } else {
                 response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid user");
+<<<<<<< HEAD
                 return;
+=======
+                return; // Return after sending error response
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
             }
         }
 
         filterChain.doFilter(request, response);
     }
+<<<<<<< HEAD
 
     private String getClientIpAddress(HttpServletRequest request) {
         String ipAddress = request.getHeader("X-Forwarded-For");
@@ -117,4 +145,6 @@ public class NursejwtAuthenticationFilter extends OncePerRequestFilter {
         }
         return ipAddress;
     }
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 }

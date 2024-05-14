@@ -1,10 +1,16 @@
 package com.had.his.Security;
 
+<<<<<<< HEAD
 /*import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+=======
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -12,8 +18,11 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.util.Date;
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 @Component
 public class JwtTokenProvider {
 
@@ -22,7 +31,10 @@ public class JwtTokenProvider {
     @Value("${app.jwt-expiration-milliseconds}")
     private long jwtExpirationDate;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     //generate key
     private SecretKey key(){
         byte[] decodedSecret = Decoders.BASE64URL.decode(jwtSecret);
@@ -38,6 +50,7 @@ public class JwtTokenProvider {
 
         Date currentDate = new Date();
 
+<<<<<<< HEAD
 
         Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
         System.out.println("hello");
@@ -50,12 +63,21 @@ public class JwtTokenProvider {
                 .compact();
 
 
+=======
+        Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
+        System.out.println("hello");
+
+        String token=Jwts.builder().subject(user1).issuedAt(currentDate).expiration(expireDate).signWith(key()).compact();
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
 
         System.out.println("Token Generated"+ token);
         return token;
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
     //get email from jwtToken
     public String getuserfromtoken(String token)
     {
@@ -82,7 +104,10 @@ public class JwtTokenProvider {
     public  boolean validateToken(String token, UserDetails userDetails){
         try {
            Claims claims= Jwts.parser().verifyWith(key()).build().parseSignedClaims(token).getPayload();
+<<<<<<< HEAD
            System.out.println(userDetails.getUsername());
+=======
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
             return (claims.getSubject().equals(userDetails.getUsername()) && !isTokenExpired(token));
         }catch (MalformedJwtException malformedJwtException){
             throw new RuntimeException("Invalid Jwt Token",malformedJwtException);
@@ -100,6 +125,7 @@ public class JwtTokenProvider {
     }
 
 
+<<<<<<< HEAD
 }*/
 import com.had.his.DAO.TokenDAO;
 import io.jsonwebtoken.Claims;
@@ -191,3 +217,6 @@ public class JwtTokenProvider {
 
 }
 
+=======
+}
+>>>>>>> 8e0f9a839520fed7932bb660778a56592ca8bdb2
