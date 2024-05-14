@@ -2,6 +2,7 @@ package com.had.his.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name="testimages")
@@ -12,13 +13,14 @@ public class TestImages {
     @Column(name="testimageId")
     private Long testimageId;
 
+    @NotEmpty(message = "Upload image")
     @Column(columnDefinition = "MEDIUMTEXT",nullable = false)
     private String image;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="tid" ,nullable = false)
-    private Test tests;
+    private Test test;
 
     public TestImages() {
     }
@@ -26,7 +28,7 @@ public class TestImages {
     public TestImages(Long testimageId, String image, Test tests) {
         this.testimageId = testimageId;
         this.image = image;
-        this.tests = tests;
+        this.test = tests;
     }
 
     public Long getTestimageId() {
@@ -45,12 +47,12 @@ public class TestImages {
         this.image = image;
     }
 
-    public Test getTests() {
-        return tests;
+    public Test getTest() {
+        return test;
     }
 
-    public void setTests(Test tests) {
-        this.tests = tests;
+    public void setTest(Test tests) {
+        this.test = tests;
     }
 
     @Override
@@ -58,7 +60,7 @@ public class TestImages {
         return "TestImages{" +
                 "testimageId=" + testimageId +
                 ", image='" + image + '\'' +
-                ", tests=" + tests +
+                ", tests=" + test +
                 '}';
     }
 }

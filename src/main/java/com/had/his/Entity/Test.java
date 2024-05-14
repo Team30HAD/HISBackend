@@ -1,8 +1,15 @@
 package com.had.his.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "tests")
@@ -10,13 +17,16 @@ public class Test {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="test_id")
+    @Column(name = "test_id")
     private Integer id;
 
-    @Column(name = "test_name",nullable = false)
+    @NotEmpty(message = "Test Name cannot be blank")
+    @Size(min = 2, message = "Name should contain at least 2 characters")
+    @Column(name = "test_name", nullable = false)
     private String testName;
 
-    @Column(name = "prescribed_on",nullable = false)
+
+    @Column(name = "prescribed_on", nullable = false)
     private LocalDate prescribedOn;
 
     @Column(name = "test_result", columnDefinition = "MEDIUMTEXT")
@@ -25,23 +35,27 @@ public class Test {
     @Column(name = "past_test")
     private Boolean pastTest;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "test"})
+    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)
+    private List<TestImages> testImages;
 
-    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "tests"})
     @ManyToOne
-    @JoinColumn(name = "vid",nullable = false)
+    @JoinColumn(name = "vid", nullable = false)
     private Visit visit;
 
 
-    public Test(){
+    public Test() {
     }
 
-    public Test(Integer id, String testName, LocalDate prescribedOn, String result, Boolean pastTest, Visit visit) {
+    public Test(Integer id, String testName, LocalDate prescribedOn, String result, Boolean pastTest, Visit visit, List<TestImages> testImages) {
         this.id = id;
         this.testName = testName;
         this.prescribedOn = prescribedOn;
         this.result = result;
         this.pastTest = pastTest;
         this.visit = visit;
+        this.testImages = testImages;
     }
 
     public Integer getId() {
@@ -93,6 +107,13 @@ public class Test {
         this.visit = visit;
     }
 
+    public List<TestImages> getTestImages() {
+        return testImages;
+    }
+
+    public void setTestImages(List<TestImages> testImages) {
+        this.testImages = testImages;
+    }
 
     @Override
     public String toString() {
@@ -102,6 +123,7 @@ public class Test {
                 ", prescribedOn=" + prescribedOn +
                 ", result='" + result + '\'' +
                 ", pastTest=" + pastTest +
+                ", testImages=" + testImages +
                 ", visit=" + visit +
                 '}';
     }

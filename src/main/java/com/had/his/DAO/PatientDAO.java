@@ -11,17 +11,17 @@ public interface PatientDAO extends JpaRepository<Patient,Long> {
     @Query("select p from Patient p where p.patientId=?1")
     Patient findPatientDetailsById(String patientId);
 
-    @Query("select p from Patient p,Visit v where v.patient.patientId=p.patientId and v.dischargedDate is null and v.emergency=false and p.vitals is not null and p.symptoms is not null and v.doctor.email=?1 order by v.admittedTime asc")
+    @Query("select p from Patient p,Visit v,Consent c where v.patient.patientId=p.patientId and c.patient=p and c.expired=false and v.dischargedDate is null and v.emergency=false and p.vitals is not null and p.symptoms is not null and v.doctor.email=?1 order by v.admittedDate asc,v.admittedTime asc")
     List<Patient> getPatientsByDoctor(String email);
 
-    @Query("select p from Patient p,Visit v where v.patient.patientId=p.patientId and v.dischargedDate is null and v.emergency=true and p.vitals is not null and p.symptoms is not null and v.doctor.email=?1 order by v.admittedTime asc")
+    @Query("select p from Patient p,Visit v,Consent c where v.patient.patientId=p.patientId and c.patient=p and c.expired=false and v.dischargedDate is null and v.emergency=true and p.vitals is not null and p.symptoms is not null and v.doctor.email=?1 order by v.admittedDate asc,v.admittedTime asc")
     List<Patient> getEmergencyPatients(String email);
 
-    @Query("select p from Patient p,Visit v where v.patient.patientId=p.patientId and v.dischargedDate is null and v.emergency=true order by v.admittedTime asc")
+    @Query("select p from Patient p,Visit v,Consent c where v.patient.patientId=p.patientId and c.patient=p and c.expired=false and v.dischargedDate is null and v.emergency=true order by v.admittedTime asc")
     List<Patient> findAllEmergencyPatients();
 
 
-    @Query("select p from Patient p,Visit v where v.patient.patientId=p.patientId and v.dischargedDate is null and v.emergency=false order by v.admittedTime asc")
+    @Query("select p from Patient p,Visit v,Consent c where v.patient.patientId=p.patientId and c.patient=p and c.expired=false and v.dischargedDate is null and v.emergency=false order by v.admittedTime asc")
     List<Patient> findAllPatients();
 
     @Query("select count(v) from Visit v where v.dischargedDate is null and v.doctor.email=?1")
@@ -35,4 +35,5 @@ public interface PatientDAO extends JpaRepository<Patient,Long> {
 
     @Query("SELECT p FROM Patient p WHERE p.department = 'OP'")
     List<Patient> findOutdoorPatientDetails();
+
 }

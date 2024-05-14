@@ -2,7 +2,11 @@ package com.had.his.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.had.his.Encryption.StringCryptoConverter;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 
 
 import java.util.ArrayList;
@@ -21,20 +25,26 @@ public class Patient {
     @Column(name="patient_id",unique = true,nullable = false)
     private String patientId;
 
+    @Convert(converter = StringCryptoConverter.class)
     @Column(name = "patient_name", nullable = false)
     private String patientName;
 
+    @Convert(converter = StringCryptoConverter.class)
     @Column(name = "age", nullable = false)
-    private Integer age;
+    private String age;
 
+    @Convert(converter = StringCryptoConverter.class)
     @Column(name = "sex", nullable = false)
     private String sex;
 
+    @Convert(converter = StringCryptoConverter.class)
     @Column(name = "contact", nullable = false)
     private String contact;
 
+    @Convert(converter = StringCryptoConverter.class)
     @Column(name = "email")
     private String email;
+
 
     @Column(name = "department", nullable = false)
     private String department;
@@ -51,6 +61,10 @@ public class Patient {
     @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL)
     private Vitals vitals;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "patient"})
+    @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL)
+    private Consent consent;
+
     @JsonIgnore
     @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
     private List<SymptomImages> symptomImages;
@@ -63,12 +77,12 @@ public class Patient {
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<Progress> progress;
 
-    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade= CascadeType.ALL)
+    @OneToMany(mappedBy = "patient", cascade= CascadeType.ALL)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "patient"})
     private List<Visit> visit;
 
-    public Patient(Long Id, String patientId, String patientName, Integer age, String sex, String contact, String email, String department, Boolean emergency, String specialization, String disease, Doctor doctor, List<Medication> medications, List<PastHistory> pastHistories, Symptoms symptoms, Vitals vitals, List<SymptomImages> symptomImages, Bed bed, List<Progress> progress, List<Visit> visit) {
-        this.Id = Id;
+    public Patient(Long id, String patientId, String patientName, String age, String sex, String contact, String email, String department, List<PastHistory> pastHistories, Symptoms symptoms, Vitals vitals, Consent consent, List<SymptomImages> symptomImages, Bed bed, List<Progress> progress, List<Visit> visit) {
+        Id = id;
         this.patientId = patientId;
         this.patientName = patientName;
         this.age = age;
@@ -79,12 +93,12 @@ public class Patient {
         this.pastHistories = pastHistories;
         this.symptoms = symptoms;
         this.vitals = vitals;
+        this.consent = consent;
         this.symptomImages = symptomImages;
         this.bed = bed;
         this.progress = progress;
         this.visit = visit;
     }
-
 
     public Patient() {
     }
@@ -113,11 +127,11 @@ public class Patient {
         this.patientName = patientName;
     }
 
-    public Integer getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(String age) {
         this.age = age;
     }
 
@@ -153,7 +167,6 @@ public class Patient {
         this.department = department;
     }
 
-
     public List<PastHistory> getPastHistories() {
         return pastHistories;
     }
@@ -176,6 +189,14 @@ public class Patient {
 
     public void setVitals(Vitals vitals) {
         this.vitals = vitals;
+    }
+
+    public Consent getConsent() {
+        return consent;
+    }
+
+    public void setConsent(Consent consent) {
+        this.consent = consent;
     }
 
     public List<SymptomImages> getSymptomImages() {
@@ -226,14 +247,13 @@ public class Patient {
         newVisit.setPatient(this);
     }
 
-
     @Override
     public String toString() {
         return "Patient{" +
                 "Id=" + Id +
                 ", patientId='" + patientId + '\'' +
                 ", patientName='" + patientName + '\'' +
-                ", age=" + age +
+                ", age='" + age + '\'' +
                 ", sex='" + sex + '\'' +
                 ", contact='" + contact + '\'' +
                 ", email='" + email + '\'' +
@@ -241,6 +261,7 @@ public class Patient {
                 ", pastHistories=" + pastHistories +
                 ", symptoms=" + symptoms +
                 ", vitals=" + vitals +
+                ", consent=" + consent +
                 ", symptomImages=" + symptomImages +
                 ", bed=" + bed +
                 ", progress=" + progress +

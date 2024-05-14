@@ -2,13 +2,17 @@ package com.had.his.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.Objects;
 
 @Entity
-@Table(name="nurse_schedule",uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"day", "start_time","end_time"})})
+@Table(name="nurse_schedule", uniqueConstraints = {@UniqueConstraint(columnNames = {"day", "start_time", "end_time", "nid"})})
 public class NurseSchedule {
 
     @Id
@@ -16,13 +20,19 @@ public class NurseSchedule {
     @Column(name = "schedule_id")
     private Integer scheduleId;
 
+    @NotNull(message = "Please mention the day")
     @Enumerated(EnumType.STRING)
     @Column(name = "day",nullable = false)
     private DayOfWeek day;
 
+    @NotNull(message = "Start time must be provided")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     @Column(name = "start_time",nullable = false)
     private LocalTime start_time;
 
+
+    @NotNull(message = "End time must be provided")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     @Column(name = "end_time",nullable = false)
     private LocalTime end_time;
 
@@ -30,6 +40,7 @@ public class NurseSchedule {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nid",referencedColumnName = "nurse_id",nullable = false)
     private Nurse nurse;
+
 
     public NurseSchedule() {
     }

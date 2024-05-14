@@ -1,7 +1,12 @@
 package com.had.his.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 import java.time.LocalDate;
@@ -15,19 +20,25 @@ public class Medication {
     @Column(name="medicne_id")
     private Long medicineId;
 
+    @NotEmpty(message = "Medicine name cannot be blank")
+    @Size(min=2,message = "Medicine name should contain at least 2 characters")
     @Column(name = "medicine_name", nullable = false)
     private String medicineName;
+
 
     @Column(name = "prescribed_on", nullable = false)
     private LocalDate prescribedOn;
 
-    @Column(name = "dosage")
+    @NotEmpty(message = "Mention the dosage")
+    @Column(name = "dosage",nullable = false)
     private String dosage;
 
-    @Column(name = "frequency")
+    @NotEmpty(message = "Mention the fequency to take medicine")
+    @Column(name = "frequency",nullable = false)
     private String frequency;
 
-    @Column(name = "duration")
+    @NotEmpty(message = "Mention the duration")
+    @Column(name = "duration",nullable = false)
     private String duration;
 
     @Column(name = "special_instructions",columnDefinition = "TEXT")
@@ -36,10 +47,10 @@ public class Medication {
     @Column(name = "past_medication",nullable = false)
     private Boolean pastMedication;
 
-    @Column(name = "served")
+    @Column(name = "served",nullable = false)
     private Boolean served;
 
-    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "medications"})
     @ManyToOne
     @JoinColumn(name = "vid", nullable = false)
     private Visit visit;

@@ -1,37 +1,32 @@
 package com.had.his.Service;
 
+import com.had.his.DTO.AppointmentDTO;
 import com.had.his.DTO.LoginDTO;
 import com.had.his.Entity.*;
+import com.had.his.Response.LoginResponse;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
 public interface ReceptionistService {
-    Patient getPatientDetails(String pid);
+
+    LoginResponse verifyReceptionist(LoginDTO loginDTO);
+
+    void logoutService(String email);
+
+    Patient getPatientDetails(String pid,String consenttoken);
 
     List<Patient> getAllPatients();
 
-    Patient addPatient(Patient patient);
+    Visit bookAppointmentForExistingPatient(String email,String pid, AppointmentDTO appointment);
 
-    Visit bookAppointmentForExistingPatient(String pid, String did, Visit visit);
-
-    Visit bookAppointmentForNewPatient(String did, Visit visit);
-
-    Visit bookEmergencyAppointment(String did, Visit visit);
+    Visit bookAppointmentForNewPatient(String email,AppointmentDTO appointment);
 
     Patient updatePatient(String pid, Patient updatedPatient);
 
-    //void deletePatient(String pid);
     Patient deletePatientPII(String patientId);
-    Patient deletePatientRecords(String patientId);
 
-
-    // Methods for counting and listing doctors based on work location and availability
-//    int getIndoorDoctorsCount();
-//
-//    int getOutdoorDoctorsCount();
-//
-//    int getTotalDoctorsCount();
+    void deletePatientRecords(String patientId);
 
     List<Doctor> getIndoorDoctors();
 
@@ -39,25 +34,32 @@ public interface ReceptionistService {
 
     List<Doctor> getAllDoctors();
 
-
-    // Methods for counting and listing patients based on their location
-//    int getIndoorPatientsCount();
-//
-//    int getOutdoorPatientsCount();
-//
-//    int getTotalPatientsCount();
-
     List<Patient> getIndoorPatients();
 
     List<Patient> getOutdoorPatients();
 
-    //List<Patient> getAllPatientsWithDetails();
+    List<Doctor> getOutdoorDoctorsBySpecialization(String specialization);
 
-    List<Doctor> getDoctorsBySpecialization(String specialization);
-    // Methods for working with beds
-    List<Bed> getAllBeds();
+    List<String> getSpecialization();
+    List<ReceptionistSchedule> viewReceptionistScheduleById(String receptionistId);
 
-    List<Bed> getAvailableBeds();
+    String sendOtp(String contact);
 
-    List<Bed> getFilledBeds();
+    Boolean verifyOtp(String contact,String otp);
+
+    Receptionist getReceptionistDetailsByEmail(String email);
+
+    String getConsentToken(String pid);
+
+    List<String> getAllAppointments(String pid, String consenttoken);
+
+    String deleteAppointment(String pid, String email);
+
+    Receptionist changePassword(LoginDTO loginDTO);
+
+    String getContactFromEmail(String email);
+
+    String sendOtpPass(String contact);
+
+    Boolean verifyOtpPass(String contact, String otp);
 }

@@ -1,9 +1,18 @@
 package com.had.his.DTO;
 
+import com.had.his.Encryption.StringCryptoConverter;
+import jakarta.persistence.Convert;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
 public class LoginDTO {
 
+
+    @NotEmpty(message = "Email cannot be null")
     private String email;
 
+    @NotEmpty(message = "Passwod cannot be null")
     private String password;
 
     public LoginDTO() {

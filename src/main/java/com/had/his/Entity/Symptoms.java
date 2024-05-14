@@ -2,6 +2,10 @@ package com.had.his.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import org.checkerframework.checker.units.qual.N;
+
+import java.util.List;
 
 @Entity
 @Table(name="symptoms")
@@ -12,9 +16,11 @@ public class Symptoms {
     @Column(name="symptom_id")
     private Long symptomid;
 
+    @NotEmpty(message = "Please mention the symptom")
     @Column(name="symptom1",nullable = false)
     private String symptom1;
 
+    @NotEmpty(message = "Please mention the symptom")
     @Column(name="symptom2",nullable = false)
     private String symptom2;
 

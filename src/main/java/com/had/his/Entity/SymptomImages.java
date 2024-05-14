@@ -2,6 +2,7 @@ package com.had.his.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "symptom_images")
@@ -12,9 +13,11 @@ public class SymptomImages {
     @Column(name="symptom_image_id")
     private Integer id;
 
+    @NotEmpty(message = "Enter description")
     @Column(nullable = false)
     private String description;
 
+    @NotEmpty(message = "Upload image")
     @Column(columnDefinition = "MEDIUMTEXT",nullable = false)
     private String image;
 

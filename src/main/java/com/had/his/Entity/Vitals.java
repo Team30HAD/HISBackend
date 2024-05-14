@@ -2,6 +2,7 @@ package com.had.his.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name="vitals")
@@ -11,21 +12,34 @@ public class Vitals {
     @Column(name="vital_id")
     private Long vitalid;
 
+    @NotNull(message = "Enter temperature")
+    @DecimalMin(value = "90", message = "Temperature must be at least 90")
+    @DecimalMax(value = "105", message = "Temperature must not exceed 105")
     @Column(name="temperature",nullable = false)
     private Float temperature;
 
+    @NotNull(message = "Enter weight")
+    @Positive(message = "Weight must be a positive value")
+    @DecimalMax(value = "400", message = "Weight must not exceed 400")
     @Column(name="weight",nullable = false)
     private Float weight;
 
     @Column(name="height")
     private Float height;
 
+    @NotEmpty(message = "Enter bp")
     @Column(name="bp",nullable = false)
     private String bp;
 
+    @NotNull(message = "Enter Spo2")
+    @Positive(message = "SP02 must be a positive value")
+    @DecimalMax(value = "101", message = "SPo2 must not exceed 100")
     @Column(name="spo2",nullable = false)
     private Float spo2;
 
+    @NotNull(message = "Enter Pulse")
+    @Positive(message = "Pulse must be a positive value")
+    @DecimalMax(value = "200", message = "Pulse must not exceed 200")
     @Column(name="pulse",nullable = false)
     private Integer pulse;
 

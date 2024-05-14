@@ -3,6 +3,7 @@ package com.had.his.Entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 
@@ -14,7 +15,7 @@ public class Bed {
     @Column(name="bed_id")
     private String bId;
 
-    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "bed"})
     @OneToOne
     @JoinColumn(name="pid", referencedColumnName = "patient_id",unique = true)
     private Patient patient;

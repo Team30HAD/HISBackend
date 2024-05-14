@@ -1,5 +1,6 @@
 package com.had.his.Entity;
 
+import com.had.his.Encryption.StringCryptoConverter;
 import jakarta.persistence.*;
 
 @Entity

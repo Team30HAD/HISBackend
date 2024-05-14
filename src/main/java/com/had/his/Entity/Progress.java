@@ -2,6 +2,7 @@ package com.had.his.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.sql.Time;
 import java.time.LocalDate;
@@ -19,9 +20,11 @@ public class Progress {
     @Column(nullable = false)
     private LocalDate date;
 
+
     @Column(nullable = false)
     private Time time;
 
+    @NotNull(message = "Progress Status must be provided")
     @Column(nullable = false)
     private String status;
 

@@ -3,13 +3,15 @@ package com.had.his.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
 @Entity
-@Table(name="visits")
+@Table(name="visits",uniqueConstraints = {@UniqueConstraint(columnNames = {"doctor", "patient", "discharged_date"})})
 public class Visit {
 
     @Id
@@ -17,10 +19,10 @@ public class Visit {
     @Column(name="visit_id")
     private Long visitId;
 
-    @Column(name="admitted_date")
+    @Column(name="admitted_date",nullable = false)
     private LocalDate admittedDate;
 
-    @Column(name="admitted_time")
+    @Column(name="admitted_time",nullable = false)
     private LocalTime admittedTime;
 
     @Column(name="discharge_date")
@@ -35,7 +37,10 @@ public class Visit {
     @Column(name="disease")
     private String disease;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "checked", nullable = false)
+    private Boolean checked;
+
+    @ManyToOne
     @JoinColumn(name = "did", nullable = false,referencedColumnName = "doctor_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "visits"})
     private Doctor doctor;
@@ -45,10 +50,14 @@ public class Visit {
     private List<Medication> medications;
 
     @JsonIgnore
+    @OneToOne(mappedBy = "visit",cascade = CascadeType.ALL)
+    private Canvas canvas;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "visit",cascade = CascadeType.ALL)
     private List<Test> tests;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "pid", nullable = false,referencedColumnName = "patient_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "visits"})
     private Patient patient;
@@ -56,7 +65,7 @@ public class Visit {
     public Visit() {
     }
 
-    public Visit(Long visitId, LocalDate admittedDate, LocalTime admittedTime, LocalDate dischargedDate, Boolean emergency, String specialization, String disease, String doctorId, String patientId) {
+    public Visit(Long visitId, LocalDate admittedDate, LocalTime admittedTime, LocalDate dischargedDate, Boolean emergency, String specialization, String disease, String doctorId, String patientId, Boolean checked, Canvas canvas) {
         this.visitId = visitId;
         this.admittedDate = admittedDate;
         this.admittedTime = admittedTime;
@@ -64,6 +73,8 @@ public class Visit {
         this.emergency = emergency;
         this.specialization = specialization;
         this.disease = disease;
+        this.checked = checked;
+        this.canvas = canvas;
 
         this.doctor = new Doctor();
         doctor.setDoctorId(doctorId);
@@ -137,6 +148,22 @@ public class Visit {
         this.disease = disease;
     }
 
+    public Boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Boolean checked) {
+        this.checked = checked;
+    }
+
+    public Canvas getCanvas() {
+        return canvas;
+    }
+
+    public void setCanvas(Canvas canvas) {
+        this.canvas = canvas;
+    }
+
     public Doctor getDoctor() {
         return doctor;
     }
@@ -171,8 +198,10 @@ public class Visit {
                 ", emergency=" + emergency +
                 ", specialization='" + specialization + '\'' +
                 ", disease='" + disease + '\'' +
+                ", checked=" + checked +
                 ", doctor=" + doctor +
                 ", medications=" + medications +
+                ", canvas=" + canvas +
                 ", tests=" + tests +
                 ", patient=" + patient +
                 '}';

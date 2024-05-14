@@ -2,6 +2,10 @@ package com.had.his.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -16,18 +20,28 @@ public class PastHistory {
     @Column(name = "history_id")
     private Long historyId;
 
+
+    @NotEmpty(message = "Please mention the disease name")
+    @Size(min=1,max=30,message = "Invalid disease name")
     @Column(name = "disease", nullable = false)
     private String disease;
 
+    @NotEmpty(message = "Please mention the medicine")
+    @Size(min=2,max=30,message = "Invalid medicine name")
     @Column(name = "medicine", nullable = false, columnDefinition = "TEXT")
     private String medicine;
 
+    @NotEmpty(message = "Please mention dosage")
+    @Size(min=2,max=30,message = "Invalid dosage")
     @Column(name = "dosage", nullable = false, columnDefinition = "TEXT")
     private String dosage;
 
     @Column(name = "remarks", columnDefinition = "TEXT")
     private String remarks;
 
+
+    @NotNull(message = "Prescription date must be provided")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "recorded_at", nullable = false)
     private LocalDate recordedAt;
 
@@ -128,9 +142,9 @@ public class PastHistory {
                 ", medicine='" + medicine + '\'' +
                 ", dosage='" + dosage + '\'' +
                 ", remarks='" + remarks + '\'' +
+                ", recordedAt=" + recordedAt +
                 ", pastImages=" + pastImages +
                 ", patient=" + patient +
-                ", recordedAt=" + recordedAt +
                 '}';
     }
 }

@@ -2,6 +2,8 @@ package com.had.his.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+
 @Entity
 @Table(name = "past_images")
 public class PastImages {
@@ -11,6 +13,7 @@ public class PastImages {
         @Column(name = "past_image_id")
         private Integer imgId;
 
+        @NotEmpty(message = "Image url needed")
         @Column(name="image",columnDefinition = "MEDIUMTEXT",nullable = false)
         private String pastImg;
 
@@ -52,12 +55,5 @@ public class PastImages {
         this.pastHistory = pastHistory;
     }
 
-    @Override
-    public String toString() {
-        return "PastImages{" +
-                "imgId=" + imgId +
-                ", pastImg='" + pastImg + '\'' +
-                ", pastHistory=" + pastHistory +
-                '}';
-    }
+
 }
